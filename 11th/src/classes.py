@@ -1,29 +1,26 @@
-import pygame
+import pygame as pg
 from src.colours import *
 from random import randint
 
 class Functions():
     @staticmethod
-    def randColour():
-        return [RED, YELLOW, GREEN, INDIGO, BLUE, MAGENTA][randint(0, 5)]
-
-    @staticmethod
-    def in_range(x, y, r):
+    def in_range(x:float, y:float, r:float) -> bool:
         return all(y[i][0] - r < x[i][0] < y[i][0] + r for i in range(3))
 
-    def matrixMult(self, a, b):
-        r_A = len(a)
-        c_A = len(a[0])
-        c_B = len(b[0])
+    @staticmethod
+    def hexToRgb(hex_: str) -> tuple:
+        return tuple(int(hex_.lstrip('#')[i:i+2], 16) for i in (0, 2, 4))
 
-        c = [[0 for r in range(c_B)] for c in range(r_A)]
+    def randColour(self) -> tuple:
+        return [self.hexToRgb(P1), self.hexToRgb(P2), self.hexToRgb(P3), self.hexToRgb(P4)][randint(0, 3)]
 
-        for x in range(r_A):
-            for y in range(c_B):
-                for z in range(c_A):
-                    c[x][y] += a[x][z] * b[z][y]
+    def matrixMult(self, a:list, b:list) -> list:
+        rows_a = len(a)
+        cols_a = len(a[0])
+        cols_b = len(b[0])
 
-        return c
+        result = [[sum(a[i][k] * b[k][j] for k in range(cols_a)) for j in range(cols_b)] for i in range(rows_a)]
+        return result
 
 
 class ToggleButt():
@@ -43,12 +40,12 @@ class ToggleButt():
 
     def draw(self):
         if self.disabled == True:
-            pygame.draw.rect(self.screen, D_GRAY, self.rect)
+            pg.draw.rect(self.screen, Functions.hexToRgb(DISBL), self.rect)
         else:
             if self.toggle == 1:
-                pygame.draw.rect(self.screen, GREEN, self.rect)
+                pg.draw.rect(self.screen, Functions.hexToRgb(GREEN), self.rect)
             else:
-                pygame.draw.rect(self.screen, RED, self.rect)
+                pg.draw.rect(self.screen, Functions.hexToRgb(RED), self.rect)
 
 
 class Importer():

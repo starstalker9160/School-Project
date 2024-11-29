@@ -1,0 +1,10 @@
+BG   = (17, 16, 26)
+WHITE   = (255, 255, 255)
+RED     = "#EE4266"
+GREEN   = "#3CBBB1"
+DISBL = "#C4CBCA"
+
+P1 = "#BCA5D4"
+P2 = "#BACBFE"
+P3 = "#8F9FE4"
+P4 = "#7164B4"

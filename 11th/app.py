@@ -1,5 +1,5 @@
 import pygame as pg
-import copy, easygui
+import os, copy, easygui
 from math import sin, cos
 from src.colours import *
 from src.objects import *
@@ -25,8 +25,9 @@ clock = pg.time.Clock()
 shapes = Shapes()
 functions = Functions()
 
-font = pg.font.Font('./fonts/Poppins.ttf', 20)
-fontSmall = pg.font.Font('./fonts/Poppins.ttf', 15)
+# check for fonts before starting please
+font = pg.font.Font(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "fonts", "Poppins.ttf")), 20)
+fontSmall = pg.font.Font(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "fonts", "Poppins.ttf")), 15)
 
 
 
@@ -34,31 +35,29 @@ fontSmall = pg.font.Font('./fonts/Poppins.ttf', 15)
 ##       BUTTONS      ##
 ########################
 # rect
-cubeButtRect = pg.Rect((1530, 30), (60, 60))
-pyramidButtRect = pg.Rect((1530, 100), (60, 60))
-sphereButtRect = pg.Rect((1530, 170), (60, 60))
-customShapeButtRect = pg.Rect((1530, 240), (60, 60))
+cubeButtRect = pg.Rect((1500, 110), (60, 20))
+sphereButtRect = pg.Rect((1500, 180), (60, 20))
+customShapeButtRect = pg.Rect((1500, 250), (60, 20))
 
-vertButtRect = pg.Rect((1530, 630), (60, 60))
-edgeButtRect = pg.Rect((1530, 560), (60, 60))
-faceButtRect = pg.Rect((1530, 490), (60, 60))
+vertButtRect = pg.Rect((1500, 640), (60, 20))
+edgeButtRect = pg.Rect((1500, 570), (60, 20))
+faceButtRect = pg.Rect((1500, 500), (60, 20))
 
 # txt
-vertButtTxt = fontSmall.render('Show verts', True, BLACK)
-edgeButtTxt = fontSmall.render('Show edges', True, BLACK)
-faceButtTxt = fontSmall.render('Show faces', True, BLACK)
+shapes_text = font.render('Shapes', True, WHITE)
 
-settings_text = font.render('Settings', True, BLACK)
+cubeButtTxt = fontSmall.render('Cube', True, WHITE)
+sphereButtTxt = fontSmall.render('Sphere', True, WHITE)
+customShapeButtTxt = fontSmall.render('.obj file', True, WHITE)
 
-shapes_text = font.render('Shapes', True, BLACK)
-cubeButtTxt = fontSmall.render('Cube', True, BLACK)
-pyramidButtText = fontSmall.render('Pyramid', True, BLACK)
-sphereButtTxt = fontSmall.render('Sphere', True, BLACK)
-customShapeButtTxt = fontSmall.render('Custom Shape', True, BLACK)
+settings_text = font.render('Settings', True, WHITE)
+
+vertButtTxt = fontSmall.render('Show verts', True, WHITE)
+edgeButtTxt = fontSmall.render('Show edges', True, WHITE)
+faceButtTxt = fontSmall.render('Show faces', True, WHITE)
 
 # actual buttons
 cubeButt = ToggleButt(cubeButtRect, display, 1, False)
-pyramidButt = ToggleButt(pyramidButtRect, display, 0, False)
 sphereButt = ToggleButt(sphereButtRect, display, 0, False)
 customShapeButt = ToggleButt(customShapeButtRect, display, 0, False)
 
@@ -67,9 +66,8 @@ toggleEdgesButt = ToggleButt(edgeButtRect, display, 1, False)
 toggleFacesButt = ToggleButt(faceButtRect, display, 1, False)
 
 def renderButtonTxt():
-    display.blit(shapes_text, (1500, 0))
-    display.blit(cubeButtTxt, (1500, 20))
-    display.blit(pyramidButtText, (1500, 90))
+    display.blit(shapes_text, (1500, 50))
+    display.blit(cubeButtTxt, (1500, 90))
     display.blit(sphereButtTxt, (1500, 160))
     display.blit(customShapeButtTxt, (1500, 230))
     
@@ -158,7 +156,7 @@ while run:
     clock.tick(144)
     fps = clock.get_fps()
 
-    display.fill(WHITE)
+    display.fill(BG)
 
     mouseButts = pg.mouse.get_pressed()
     if mouseButts[2]:
@@ -221,16 +219,6 @@ while run:
                         if cubeButt.toggle == 0:
                             cubeButt.clicked()
                             changeShape(0)
-                            pyramidButt.toggle = 0
-                            sphereButt.toggle = 0
-                            customShapeButt.toggle = 0
-
-                if pyramidButtRect.collidepoint(mousePOS[0], mousePOS[1]):
-                    if pyramidButt.disabled == False:
-                        if pyramidButt.toggle == 0:
-                            pyramidButt.clicked()
-                            changeShape(1)
-                            cubeButt.toggle = 0
                             sphereButt.toggle = 0
                             customShapeButt.toggle = 0
 
@@ -240,18 +228,16 @@ while run:
                             sphereButt.clicked()
                             changeShape(2)
                             cubeButt.toggle = 0
-                            pyramidButt.toggle = 0
                             customShapeButt.toggle = 0
 
                 if customShapeButtRect.collidepoint(mousePOS[0], mousePOS[1]):
                     if customShapeButt.disabled == False:
                         if customShapeButt.toggle == 0:
-                            file = easygui.fileopenbox(default = './obj_files/*.obj')
+                            file = easygui.fileopenbox(default = './meshes/*.obj')
                             changeShape(0)
                             customShapeButt.clicked()
                             changeShape(3, file)
                             cubeButt.toggle = 0
-                            pyramidButt.toggle = 0
                             sphereButt.toggle = 0
 
     faces = copy.deepcopy(ogFaces)
@@ -331,10 +317,10 @@ while run:
             a = (projectedPts[edge[0]][0], projectedPts[edge[0]][1])
             b = (projectedPts[edge[1]][0], projectedPts[edge[1]][1])
 
-            pg.draw.line(display, BLACK, a, b, 2)
+            pg.draw.line(display, Functions.hexToRgb("#29C0CB"), a, b, 2)
 
     def renderVerts():
-        for pt in projectedPts: pg.draw.circle(display, RED, (int(pt[0]), int(pt[1])), 4)
+        for pt in projectedPts: pg.draw.circle(display, Functions.hexToRgb("#F8C205"), (int(pt[0]), int(pt[1])), 4)
 
     if doRenderFaces == True: renderFaces()
     if doRenderEdges == True: renderEdges()
@@ -350,15 +336,14 @@ while run:
     toggleFacesButt.draw()
     
     cubeButt.draw()
-    pyramidButt.draw()
     sphereButt.draw()
     customShapeButt.draw()
 
-    fps_text = font.render(f'FPS: {round(fps, 2)}', True, BLACK)
-    hint_text = fontSmall.render('Hold Left-Click to rotate the camera', True, BLACK)
+    fps_text = font.render(f'FPS: {round(fps, 2)}', True, WHITE)
+    hint_text = fontSmall.render('use lmb to rotate view', True, WHITE)
 
     display.blit(fps_text, (0, 0))
-    display.blit(hint_text, (700, 0))
+    display.blit(hint_text, (725, 0))
 
     renderButtonTxt()
 
