@@ -45,13 +45,13 @@ edgeButtRect = pg.Rect((1500, 570), (60, 20))
 faceButtRect = pg.Rect((1500, 500), (60, 20))
 
 # txt
-shapes_text = font.render('Shapes', True, WHITE)
+shapesTxt = font.render('Shapes', True, WHITE)
 
 cubeButtTxt = fontSmall.render('Cube', True, WHITE)
 sphereButtTxt = fontSmall.render('Sphere', True, WHITE)
 customShapeButtTxt = fontSmall.render('.obj file', True, WHITE)
 
-settings_text = font.render('Settings', True, WHITE)
+settingsTxt = font.render('Settings', True, WHITE)
 
 vertButtTxt = fontSmall.render('View verts', True, WHITE)
 edgeButtTxt = fontSmall.render('View edges', True, WHITE)
@@ -67,12 +67,12 @@ toggleEdgesButt = ToggleButt(edgeButtRect, display, 1, False)
 toggleFacesButt = ToggleButt(faceButtRect, display, 1, False)
 
 def renderButtonTxt():
-    display.blit(shapes_text, (1500, 50))
+    display.blit(shapesTxt, (1500, 50))
     display.blit(cubeButtTxt, (1500, 90))
     display.blit(sphereButtTxt, (1500, 160))
     display.blit(customShapeButtTxt, (1500, 230))
     
-    display.blit(settings_text, (1500, 390))
+    display.blit(settingsTxt, (1500, 390))
     display.blit(vertButtTxt, (1500, 620))
     display.blit(edgeButtTxt, (1500, 550))
     display.blit(faceButtTxt, (1500, 480))
@@ -340,11 +340,8 @@ while run:
     sphereButt.draw()
     customShapeButt.draw()
 
-    fps_text = font.render(f'FPS: {round(fps, 2)}', True, WHITE)
-    hint_text = fontSmall.render('use lmb to rotate view', True, WHITE)
-
-    display.blit(fps_text, (0, 0))
-    display.blit(hint_text, (725, 0))
+    display.blit(font.render(f'FPS: {round(fps, 2)}', True, WHITE), (0, 0))
+    display.blit(fontSmall.render('use lmb to rotate viewport', True, WHITE), (725, 0))
 
     renderButtonTxt()
 
