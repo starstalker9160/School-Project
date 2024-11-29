@@ -21,6 +21,7 @@ pg.init()
 pg.display.set_caption("Blender? more like Blunder :D")
 display = pg.display.set_mode((winWidth, winHeight))
 clock = pg.time.Clock()
+os.system("cls")
 
 shapes = Shapes()
 functions = Functions()
@@ -52,9 +53,9 @@ customShapeButtTxt = fontSmall.render('.obj file', True, WHITE)
 
 settings_text = font.render('Settings', True, WHITE)
 
-vertButtTxt = fontSmall.render('Show verts', True, WHITE)
-edgeButtTxt = fontSmall.render('Show edges', True, WHITE)
-faceButtTxt = fontSmall.render('Show faces', True, WHITE)
+vertButtTxt = fontSmall.render('View verts', True, WHITE)
+edgeButtTxt = fontSmall.render('View edges', True, WHITE)
+faceButtTxt = fontSmall.render('View faces', True, WHITE)
 
 # actual buttons
 cubeButt = ToggleButt(cubeButtRect, display, 1, False)
