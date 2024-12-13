@@ -9,9 +9,17 @@ body {
     margin: 0px;
 }
 
+a {
+    color: #171717;
+    text-decoration-color: #e63462;
+}
+
+a:hover {
+    color: #e63462;
+}
+
 span {
     color: #e63462;
-    font-weight: bold;
 }
 
 ::selection {
@@ -40,11 +48,12 @@ span {
 }
 
 .title {
-    padding-left: 5%;
-    font-size: xx-large;
+    font-size: 15vh;
+    text-align: center;
     user-select: none;
 }
 
 .content {
-    margin: 5rem;
+    font-size: 2vh;
+    text-align: center;
 }

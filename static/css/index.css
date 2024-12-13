@@ -1,0 +1,74 @@
+html { height: 100vh; width: 100vw; user-select: none; }
+
+body {
+    overflow: hidden;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    color: #171717;
+    padding: 0px;
+    margin: 0px;
+}
+
+span {
+    color: #e63462;
+    font-weight: bold;
+}
+
+::selection {
+    background-color: #C7EFCF;
+    color: black;
+}
+
+.titleBar {
+    display: flex;
+    flex-direction: row;
+    padding-left: 3vw;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.title {
+    padding-left: 5%;
+    font-size: xx-large;
+}
+
+.content {
+    margin: 12rem 5rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 50px;
+}
+
+.tile {
+    width: calc(33% - 50px);
+    aspect-ratio: 16 / 2.5;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    border: 1.5px solid #00000000;
+    transition: all 0.15s ease-in-out;
+}
+
+.tile:hover {
+    box-sizing: border-box;
+    cursor: pointer;
+    background-color: #0000001a;
+    border: 1.5px solid #0000003c;
+    border-radius: 10px;
+}
+
+.heading {
+    font-size: x-large;
+    font-weight: bold;
+    padding-left: 1rem;
+    padding-top: 0.5rem;
+
+}
+
+.txt {
+    font-size: larger;
+    padding-left: 1rem;
+}

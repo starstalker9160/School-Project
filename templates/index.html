@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="background-color: {{ bg }};">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,37 +8,32 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
     
-        <link rel="stylesheet" href="/Assets/css/all.min.css">
-        <link rel="stylesheet" href="/Assets/css/fontawesome.min.css">    
+        <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/css/all.min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/css/fontawesome.min.css') }}">
 
-        <link rel="icon" href="/Assets/star_stalker.jpg" type="image/x-n">
-        <link rel="stylesheet" href="/static/css/style.css">
-        <title>PDFiles</title>
+        <link rel="stylesheet" href="/static/css/index.css">
+        <title>PDFiles | Home</title>
     </head>
-<body>
-    <p class="titleBar"><b><a class="logo">PDFiles</a></b></p>
-    <h1 class="title">PDF Tools</h1>
-    <div class="content">
-        <div class="tile" onclick="window.location.href='/split'">
-            <div class="img"><i class="fa-regular fa-copy"></i></div>
-            <div class="heading">Split</div>
-            <div class="txt">Get 200% of your pdf back!</div>
+    <body>
+        <p class="titleBar"><b><a class="logo">PDFiles</a></b></p>
+        <h1 class="title"><i class="fa-regular fa-file-pdf"></i> PDF Tools</h1>
+        <div class="content">
+            <div class="tile" onclick="window.location.href='/split'">
+                <div class="heading"><i class="fa-regular fa-copy"></i> Split</div>
+                <div class="txt">Get 200% of your pdf back!</div>
+            </div>
+            <div class="tile" onclick="window.location.href='/merge'">
+                <div class="heading"><i class="fa-solid fa-paperclip"></i> Merge</div>
+                <div class="txt">Get 50% of your pdf back!</div>
+            </div>
+            <div class="tile" onclick="window.location.href='/from-docx'">
+                <div class="heading"><i class="fa-solid fa-file-import"></i> From .docx</div>
+                <div class="txt">Publish to .pdf</div>
+            </div>
+            <div class="tile" onclick="window.location.href='/to-docx'">
+                <div class="heading"><i class="fa-regular fa-file-word"></i> To .docx</div>
+                <div class="txt">Convert to word doc</div>
+            </div>
         </div>
-        <div class="tile" onclick="window.location.href='/merge'">
-            <div class="img"><i class="fa-solid fa-paperclip"></i></div>
-            <div class="heading">Merge</div>
-            <div class="txt">Get 50% of your pdf back!</div>
-        </div>
-        <div class="tile" onclick="window.location.href='/from-docx'">
-            <div class="img"><i class="fa-solid fa-file-import"></i></div>
-            <div class="heading">From .docx</div>
-            <div class="txt">Publish to .pdf</div>
-        </div>
-        <div class="tile" onclick="window.location.href='/to-docx'">
-            <div class="img"><i class="fa-regular fa-file-word"></i></div>
-            <div class="heading">To .docx</div>
-            <div class="txt">Convert to word doc</div>
-        </div>
-    </div>
-</body>
+    </body>
 </html>
