@@ -9,11 +9,6 @@ body {
     margin: 0px;
 }
 
-span {
-    color: #e63462;
-    font-weight: bold;
-}
-
 ::selection {
     background-color: #C7EFCF;
     color: black;
@@ -55,7 +50,6 @@ span {
 .tile:hover {
     box-sizing: border-box;
     cursor: pointer;
-    background-color: #0000001a;
     border: 1.5px solid #0000003c;
     border-radius: 10px;
 }

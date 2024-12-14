@@ -9,11 +9,6 @@ body {
     margin: 0px;
 }
 
-span {
-    color: #e63462;
-    font-weight: bold;
-}
-
 ::selection {
     background-color: #C7EFCF;
     color: black;
