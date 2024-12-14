@@ -1,0 +1,1 @@
+# Hi, the pdf files will be located in /uploads.
