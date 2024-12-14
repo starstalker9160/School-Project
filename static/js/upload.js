@@ -38,8 +38,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const formData = new FormData();
         formData.append('file', file);
 
+        console.log('JavaScript loaded by:', window.location.href);
+
         const metadata = {
-            "operation": "split",  // chat please fix this
+            "operation": window.location.href.replace(/^http:\/\/127\.0\.0\.1:8080\//, ''),
             "file name": file.name
         };
 
