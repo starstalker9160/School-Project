@@ -7,6 +7,30 @@ body {
     color: #171717;
     padding: 0px;
     margin: 0px;
+    font-size: large;
+}
+
+button {
+    border: none;
+    border-radius: 50px;
+    font-size: medium;
+    color: white;
+    padding: 0.7rem;
+    background-color: #171717;
+    transition: all 0.15s ease-in-out;
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: #202020;
+}
+
+button:active {
+    background-color: #252525;
+}
+
+input::placeholder {
+    color: #303030;
 }
 
 ::selection {
@@ -20,6 +44,7 @@ body {
     flex-direction: row;
     padding-left: 3vw;
     font-family: "Poppins", sans-serif;
+    font-size: medium;
     font-weight: 400;
     line-height: 1.5;
 }
@@ -42,4 +67,32 @@ body {
 
 .content {
     margin: 5rem;
+}
+
+#drop-area {
+    background-color: #ffffff33;
+    text-align: center;
+    border-radius: 10px;
+    border: 3px dashed #00000077;
+    padding: 1rem;
+}
+
+.belowStuff {
+    padding-top: 3rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.page {
+    border: none;
+    font-size: large;
+    text-align: center;
+    border-radius: 10px;
+    background-color: #00000030;
+}
+
+.sumbit {
+    border-radius: 10px;
+    font-size: larger;
 }

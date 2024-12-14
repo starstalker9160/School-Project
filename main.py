@@ -1,5 +1,5 @@
-import os, threading, random, webbrowser, json
 from src import Handler
+import os, threading, random, webbrowser, json
 from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
@@ -14,23 +14,23 @@ colour = random.choice(["#EE6352", "#746AFE", "#59CD90", "#3FA7D6", "#FAC05E"])
 
 @app.route('/')
 def home():
-    return render_template('index.html', bg=colour)
+    return render_template('index.html', bg = colour)
 
 @app.route('/split')
 def split():
-    return render_template('split.html', bg=colour)
+    return render_template('split.html', bg = colour)
 
 @app.route('/merge')
 def merge():
-    return render_template('merge.html', bg=colour)
+    return render_template('merge.html', bg = colour)
 
 @app.route('/from-docx')
 def from_docx():
-    return render_template('from-docx.html', bg=colour)
+    return render_template('from-docx.html', bg = colour)
 
 @app.route('/to-docx')
 def to_docx():
-    return render_template('to-docx.html', bg=colour)
+    return render_template('to-docx.html', bg = colour)
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -66,10 +66,10 @@ def upload_file():
 
 @app.errorhandler(404)
 def not_found(error):
-    return render_template('404.html', bg=colour), 404
+    return render_template('404.html', bg = colour), 404
 @app.errorhandler(405)
 def not_found(error):
-    return render_template('405.html', bg=colour), 405
+    return render_template('405.html', bg = colour), 405
 
 if __name__ == '__main__':
     try:
