@@ -88,9 +88,8 @@ button:active {
     background-color: #00000030;
 }
 
-.input-group {
+.inputFeilds {
     position: relative;
-    --primary: #2196f3;
 }
 
 .input {
