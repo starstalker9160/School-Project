@@ -1,6 +1,6 @@
 from src import Handler
 import os, threading, random, webbrowser, json
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_from_directory
 
 app = Flask(__name__)
 
@@ -70,6 +70,10 @@ def not_found(error):
 @app.errorhandler(405)
 def not_found(error):
     return render_template('405.html', bg = colour), 405
+
+def download(filename, directory):
+    """Use to send file to the user for download"""
+    return send_from_directory(directory, filename, as_attachment=True)
 
 if __name__ == '__main__':
     try:
