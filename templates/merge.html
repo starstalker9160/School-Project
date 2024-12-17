@@ -20,13 +20,20 @@
         <p class="titleBar"><b><a href="/" class="logo">PDFiles</a></b></p>
         <h1 class="title"><i class="fa-solid fa-object-group"></i> Merge</h1>
         <div class="content">
-            <div id="drop-area">
-                <p>Drag and drop a PDF file here</p>
-                <input type="file" id="fileElem" accept="application/pdf" style="display:none">
-                <button id="fileSelect">Select file</button>
+            <div class="sideBySide">
+                <div id="drop-area" style="flex-basis: 48%;">
+                    <p>Select <b>first</b> pdf</p>
+                    <input type="file" id="fileElem" accept="application/pdf" style="display:none">
+                    <button id="fileSelect">Select file</button>
+                </div>
+                <div id="drop-area" style="flex-basis: 48%;">
+                    <p>Select <b>second</b> pdf</p>
+                    <input type="file" id="fileElem" accept="application/pdf" style="display:none">
+                    <button id="fileSelect">Select file</button>
+                </div>
             </div>
             <div class="belowStuff">
-                <div class="inputFeilds">First PDF: <input class="page" type="number" value="1"></div>
+                <div class="inputFeilds">Order: <input class="page" type="number" value="1"></div>
                 <button class="sumbit" id="big-boi">Merge PDF</button>
             </div>
     </body>

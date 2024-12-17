@@ -1,12 +1,13 @@
 from src import Handler
-import os, threading, random, webbrowser, json
+import os, threading, random, webbrowser, json, shutil
 from flask import Flask, render_template, request, jsonify, send_from_directory
 
 app = Flask(__name__)
 
 UPLOAD_FOLDER = "uploads"
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
+if os.path.exists(UPLOAD_FOLDER):
+    shutil.rmtree(UPLOAD_FOLDER)
+os.makedirs(UPLOAD_FOLDER)
 
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
@@ -42,6 +43,9 @@ def upload_file():
     file = request.files["file"]
     metadata = request.form.get("metadata")
 
+    if file.filename == "":
+        return jsonify({"error": "no selected file"}), 400
+
     if not metadata:
         return jsonify({"error": "No metadata provided"}), 400
 
@@ -50,25 +54,17 @@ def upload_file():
     except ValueError:
         return jsonify({"error": "invalid metadata format"}), 400
 
-    if file.filename == "":
-        return jsonify({"error": "no selected file"}), 400
+    file.save(os.path.join(app.config["UPLOAD_FOLDER"], file.filename))
 
-    if file and file.filename.endswith(".pdf"):
-        pdf_path = os.path.join(app.config["UPLOAD_FOLDER"], file.filename)
-        file.save(pdf_path)
+    with open(os.path.join(app.config["UPLOAD_FOLDER"], "metadata.json"), "w") as f:
+        json.dump(metadata, f, indent=4)
 
-        with open(os.path.join(app.config["UPLOAD_FOLDER"], "metadata.json"), "w") as f:
-            json.dump(metadata, f, indent=4)
-
-        Handler.handle()
-
-        return jsonify({"message": "upload completed successfully"}), 200
-    else:
-        return jsonify({"error": "invalid file type"}), 400
+    Handler.handle()
+    return jsonify({"message": "upload completed successfully"}), 200
 
 def download(filename, directory):
     """Use to send file to the user for download"""
-    return send_from_directory(directory, filename, as_attachment=True)
+    return send_from_directory(directory, filename, as_attachment = True)
 
 
 @app.errorhandler(404)
@@ -83,7 +79,7 @@ def not_found(error):
 if __name__ == "__main__":
     try:
         print("[  OK  ] Starting app")
-        threading.Timer(1, lambda: webbrowser.open('http://127.0.0.1:8080')).start()
+        # threading.Timer(1, lambda: webbrowser.open('http://127.0.0.1:8080')).start()
         app.run(host="127.0.0.1", port=8080, debug=True)
     except Exception as e:
         print(f"[ FAIL ] Error: {e}")

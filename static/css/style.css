@@ -123,3 +123,10 @@ button:active {
     border-radius: 10px;
     font-size: larger;
 }
+
+.sideBySide {
+    display: flex;
+    /* flex-direction: row; */
+    /* justify-content: space-between; */
+    gap: 16px;
+}
