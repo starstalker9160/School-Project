@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const toDocxSwapTwo = document.getElementById('to-docx-swap-two');
 
     const operation = window.location.href.match(/[^\/]+$/)[0];
+
     let selectedFile = null;
 
     dropArea.addEventListener('dragover', (event) => {
