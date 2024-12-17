@@ -10,28 +10,28 @@ if not os.path.exists(UPLOAD_FOLDER):
 
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
-colour = random.choice(["#EE6352", "#746AFE", "#59CD90", "#3FA7D6", "#FAC05E"])
+color = random.choice(["#EE6352", "#746AFE", "#59CD90", "#3FA7D6", "#FAC05E"])
 
 
 @app.route("/")
 def home():
-    return render_template("index.html", bg = colour)
+    return render_template("index.html", bg = color)
 
 @app.route("/split")
 def split():
-    return render_template("split.html", bg = colour)
+    return render_template("split.html", bg = color)
 
 @app.route("/merge")
 def merge():
-    return render_template("merge.html", bg = colour)
+    return render_template("merge.html", bg = color)
 
 @app.route("/from-docx")
 def from_docx():
-    return render_template("from-docx.html", bg = colour)
+    return render_template("from-docx.html", bg = color)
 
 @app.route("/to-docx")
 def to_docx():
-    return render_template("to-docx.html", bg = colour)
+    return render_template("to-docx.html", bg = color)
 
 
 @app.route("/upload", methods=["POST"])
