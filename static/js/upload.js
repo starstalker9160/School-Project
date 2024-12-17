@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const bigBoiButton = document.getElementById('big-boi');
     const inputFields = document.querySelectorAll('.inputFeilds');
     
+    const operation = window.location.href.match(/[^\/]+$/)[0];
     let selectedFile = null;
 
     dropArea.addEventListener('dragover', (event) => {
@@ -41,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         var metadata;
 
-        switch (window.location.href.match(/[^\/]+$/)[0]) {
+        switch (operation) {
             case "split":
                 metadata = {
                     "operation": "split",
