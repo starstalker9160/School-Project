@@ -35,6 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function doMetadata(fileName) {
+        regexOut = window.location.href.match(/[^\/]+$/)[0]
+
         vals = [];
         inputFields.forEach(div => {
             const inputValue = div.querySelector('input').value;
@@ -43,14 +45,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
         var metadata;
 
-        if (window.location.href.replace(/^http:\/\/127\.0\.0\.1:8080\//, '') == "split") {
-            metadata = {
-                "operation": "split",
-                "file name": fileName,
-                "operationSpecificInfo": {
-                    "splitOnPage": vals[0]
+        switch (regexOut) {
+            case "split":
+                metadata = {
+                    "operation": "split",
+                    "file name": fileName,
+                    "operationSpecificInfo": {
+                        "splitOnPage": vals[0]
+                    }
                 }
-            }
+            case "from-pdf":
+                metadata = {
+                    "operation": "from-pdf",
+                    "file name": fileName,
+                    "operationSpecificInfo": {}
+                }
+            case "from-docx":
+                metadata = {
+                    "operation": "from-docx",
+                    "file name": fileName,
+                    "operationSpecificInfo": {}
+                }
         }
 
         return metadata;
