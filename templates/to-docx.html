@@ -1,32 +1,51 @@
 <!DOCTYPE html>
 <html lang="en" style="background-color: {{ bg }};">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
-    
-        <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/css/all.min.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/css/fontawesome.min.css') }}">
 
-        <link rel="stylesheet" href="/static/css/style.css">
-        <!-- <script src="/static/js/script.js"></script> -->
-        <script src="/static/js/upload.js"></script>
-        <title>PDFiles | to .docx</title>
-    </head>
-    <body>
-        <p class="titleBar"><b><a href="/" class="logo">PDFiles</a></b></p>
-        <h1 class="title"><i class="fa-regular fa-file-word"></i> To .docx</h1>
-        <div class="content">
-            <div id="drop-area">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/css/fontawesome.min.css') }}">
+
+    <link rel="stylesheet" href="/static/css/style.css">
+    <!-- <script src="/static/js/script.js"></script> -->
+    <script src="/static/js/upload.js"></script>
+    <title>PDFiles | to .docx</title>
+</head>
+
+<body>
+    <p class="titleBar"><b><a href="/" class="logo">PDFiles</a></b></p>
+    <h1 class="title"><i class="fa-regular fa-file-word"></i> To .docx</h1>
+    <div class="content">
+        <div id="drop-area">
+            <div id="to-docx-swap-one">
                 <p>Drag and drop a PDF file here</p>
-                <input type="file" id="fileElem" accept=".pdf" style="display:none">
-                <button id="fileSelect">Select file</button>
+                <input type="file" id="file-elem" accept=".pdf" style="display:none">
+                <button id="file-select">Select file</button>
             </div>
-            <div class="belowStuff">
-                <button class="sumbit" id="big-boi">Convert</button>
+            <div id="to-docx-swap-two" class="hidden arrowRow">
+                <div id="docx-side">
+                    <i class="fa-regular fa-file-pdf" style="font-size: 75px;"></i>
+                    <p id="pdf-file-name"></p>
+                </div>
+                <div id="arrow">
+                    <i class="fa-solid fa-arrow-right" style="font-size: 95px;"></i>
+                </div>
+                <div id="docx-side">
+                    <i class="fa-regular fa-file-word" style="font-size: 75px;"></i>
+                    <p id="doc-file-name"></p>
+                </div>
             </div>
-    </body>
+        </div>
+        <div class="sideButton">
+            <button class="submit" id="convert-button">Convert</button>
+        </div>
+    </div>
+</body>
+
 </html>

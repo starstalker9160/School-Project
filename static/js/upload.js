@@ -32,13 +32,40 @@ document.addEventListener('DOMContentLoaded', () => {
     fileSelect.addEventListener('click', () => fileElem.click());
 
     fileElem.addEventListener('change', () => {
-        if (fileElem.files.length) { selectedFile = fileElem.files[0]; }
+        if (fileElem.files.length) {
+            selectedFile = fileElem.files[0];
+
+            switch (operation) {
+                case "from-docx":
+                    fromDocxToPdf(selectedFile.name);
+                    break;
+
+                case "to-docx":
+                    toDocxFromPdf(selectedFile.name);
+                    break;
+            }
+        }
     });
 
     bigBoiButton.addEventListener('click', () => {
         if (selectedFile) { uploadFile(selectedFile); }
         else { alert("Please select a file first!"); }
     });
+
+    function fromDocxToPdf(filename) {
+        fromDocxSwapOne.classList.toggle('hidden');
+        fromDocxSwapTwo.classList.toggle('hidden');
+        convertButton.classList.toggle('hidden');
+        docFileName.innerHTML = filename;
+        pdfFileName.innerHTML = filename.replace(/\.[^/.]+$/, "") + ".pdf";
+    }
+
+    function toDocxFromPdf(filename) {
+        toDocxSwapOne.classList.toggle('hidden');
+        toDocxSwapTwo.classList.toggle('hidden');
+        pdfFileName.innerHTML = filename;
+        docFileName.innerHTML = filename.replace(/\.[^/.]+$/, "") + ".docx";
+    }
 
     function doMetadata(fileName) {
         var vals = [];
