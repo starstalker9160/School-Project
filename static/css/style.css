@@ -102,7 +102,7 @@ button:active {
     background-color: #00000030;
 }
 
-.inputFeilds {
+.inputFields {
     position: relative;
 }
 
@@ -133,7 +133,7 @@ button:active {
     color: #1a1a1a;
 }
 
-.sumbit {
+.submit {
     border-radius: 10px;
     font-size: larger;
 }
