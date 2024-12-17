@@ -10,32 +10,28 @@ if not os.path.exists(UPLOAD_FOLDER):
 
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
-color = random.choice(["#EE6352", "#746AFE", "#59CD90", "#3FA7D6", "#FAC05E"])
+colour = random.choice(["#EE6352", "#746AFE", "#59CD90", "#3FA7D6", "#FAC05E"])
 
 
 @app.route("/")
 def home():
-    return render_template("index.html", bg=color)
-
+    return render_template("index.html", bg = colour)
 
 @app.route("/split")
 def split():
-    return render_template("split.html", bg=color)
-
+    return render_template("split.html", bg = colour)
 
 @app.route("/merge")
 def merge():
-    return render_template("merge.html", bg=color)
-
+    return render_template("merge.html", bg = colour)
 
 @app.route("/from-docx")
 def from_docx():
-    return render_template("from-docx.html", bg=color)
-
+    return render_template("from-docx.html", bg = colour)
 
 @app.route("/to-docx")
 def to_docx():
-    return render_template("to-docx.html", bg=color)
+    return render_template("to-docx.html", bg = colour)
 
 
 @app.route("/upload", methods=["POST"])
@@ -70,20 +66,18 @@ def upload_file():
     else:
         return jsonify({"error": "invalid file type"}), 400
 
-
-@app.errorhandler(404)
-def not_found(error):
-    return render_template("404.html", bg=color), 404
-
-
-@app.errorhandler(405)
-def not_found(error):
-    return render_template("405.html", bg=color), 405
-
-
 def download(filename, directory):
     """Use to send file to the user for download"""
     return send_from_directory(directory, filename, as_attachment=True)
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return render_template("404.html", bg = colour), 404
+
+@app.errorhandler(405)
+def not_found(error):
+    return render_template("405.html", bg = colour), 405
 
 
 if __name__ == "__main__":
@@ -91,6 +85,5 @@ if __name__ == "__main__":
         print("[  OK  ] Starting app")
         threading.Timer(1, lambda: webbrowser.open('http://127.0.0.1:8080')).start()
         app.run(host="127.0.0.1", port=8080, debug=True)
-        print("[  OK  ] App started")
     except Exception as e:
         print(f"[ FAIL ] Error: {e}")
