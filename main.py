@@ -53,8 +53,8 @@ def upload_file():
     if file.filename == "":
         return jsonify({"error": "no selected file"}), 400
 
-    if file and file.filename.endswith(".pdf"):
-        pdf_path = os.path.join(app.config["UPLOAD_FOLDER"], file.filename)
+    if file and str(file.filename).endswith(".pdf"):
+        pdf_path = os.path.join(app.config["UPLOAD_FOLDER"], str(file.filename))
         file.save(pdf_path)
 
         with open(os.path.join(app.config["UPLOAD_FOLDER"], "metadata.json"), "w") as f:
