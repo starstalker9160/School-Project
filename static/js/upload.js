@@ -33,9 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function doMetadata(fileName) {
-        regexOut = window.location.href.match(/[^\/]+$/)[0]
-
-        vals = [];
+        var vals = [];
         inputFields.forEach(div => {
             const inputValue = div.querySelector('input').value;
             vals.push(inputValue);
@@ -43,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         var metadata;
 
-        switch (regexOut) {
+        switch (window.location.href.match(/[^\/]+$/)[0]) {
             case "split":
                 metadata = {
                     "operation": "split",
@@ -51,31 +49,33 @@ document.addEventListener('DOMContentLoaded', () => {
                     "operationSpecificInfo": {
                         "splitOnPage": vals[0]
                     }
-                }
+                };
+                vals = [];
+                break;
+
             case "from-pdf":
                 metadata = {
                     "operation": "from-pdf",
                     "file name": fileName,
                     "operationSpecificInfo": {}
-                }
+                };
+                break;
+
             case "from-docx":
                 metadata = {
                     "operation": "from-docx",
                     "file name": fileName,
                     "operationSpecificInfo": {}
-                }
+                };
+                break;
         }
-
         return metadata;
     }
 
     function uploadFile(file) {
         const fD = new FormData();
         fD.append('file', file);
-
-        const metadata = doMetadata(file.name);
-
-        fD.append('metadata', JSON.stringify(metadata));
+        fD.append('metadata', JSON.stringify(doMetadata(file.name)));
 
         fetch('/upload', {
             method: 'POST',
