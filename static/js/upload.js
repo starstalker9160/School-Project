@@ -18,9 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
         dropArea.classList.remove('hover');
         const files = event.dataTransfer.files;
-        if (files.length) {
-            selectedFile = files[0];
-        }
+        if (files.length) { selectedFile = files[0]; }
     });
 
     fileSelect.addEventListener('click', () => fileElem.click());
@@ -35,9 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function doMetadata(fileName) {
-        regexOut = window.location.href.match(/[^\/]+$/)[0]
-
-        vals = [];
+        var vals = [];
         inputFields.forEach(div => {
             const inputValue = div.querySelector('input').value;
             vals.push(inputValue);
@@ -45,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         var metadata;
 
-        switch (regexOut) {
+        switch (window.location.href.match(/[^\/]+$/)[0]) {
             case "split":
                 metadata = {
                     "operation": "split",
@@ -53,41 +49,37 @@ document.addEventListener('DOMContentLoaded', () => {
                     "operationSpecificInfo": {
                         "splitOnPage": vals[0]
                     }
-                }
+                };
+                vals = [];
+                break;
+
             case "from-pdf":
                 metadata = {
                     "operation": "from-pdf",
                     "file name": fileName,
                     "operationSpecificInfo": {}
-                }
+                };
+                break;
+
             case "from-docx":
                 metadata = {
                     "operation": "from-docx",
                     "file name": fileName,
                     "operationSpecificInfo": {}
-                }
+                };
+                break;
         }
-
         return metadata;
     }
 
     function uploadFile(file) {
-        const formData = new FormData();
-        formData.append('file', file);
-
-        // const metadata = {
-        //     "operation": window.location.href.replace(/^http:\/\/127\.0\.0\.1:8080\//, ''),
-        //     "file name": file.name,
-        //     "operationSpecificInfo": {}
-        // };
-
-        const metadata = doMetadata(file.name);
-
-        formData.append('metadata', JSON.stringify(metadata));
+        const fD = new FormData();
+        fD.append('file', file);
+        fD.append('metadata', JSON.stringify(doMetadata(file.name)));
 
         fetch('/upload', {
             method: 'POST',
-            body: formData,
+            body: fD,
         })
         .then(response => response.json())
         .then(data => {
