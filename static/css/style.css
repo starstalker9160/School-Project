@@ -80,6 +80,20 @@ button:active {
     justify-content: space-between;
 }
 
+.arrowRow {
+    padding-top: 3rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.sideButton {
+    padding-top: 3rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
 .page {
     border: none;
     font-size: large;
@@ -122,4 +136,8 @@ button:active {
 .sumbit {
     border-radius: 10px;
     font-size: larger;
+}
+
+.hidden {
+    display: none;
 }
