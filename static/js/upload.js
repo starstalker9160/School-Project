@@ -1,10 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
     const dropArea = document.getElementById('drop-area');
-    const fileSelect = document.getElementById('fileSelect');
-    const fileElem = document.getElementById('fileElem');
-    const bigBoiButton = document.getElementById('big-boi');
-    const inputFields = document.querySelectorAll('.inputFeilds');
-    
+    const fileSelect = document.getElementById('file-select');
+    const fileElem = document.getElementById('file-elem');
+    const convertButton = document.getElementById('convert-button');
+    const inputFields = document.querySelectorAll('.inputFields');
+    const fromDocxSwapOne = document.getElementById('from-docx-swap-one');
+    const fromDocxSwapTwo = document.getElementById('from-docx-swap-two');
+    const docFileName = document.getElementById('doc-file-name');
+    const pdfFileName = document.getElementById('pdf-file-name');
+    const toDocxSwapOne = document.getElementById('to-docx-swap-one');
+    const toDocxSwapTwo = document.getElementById('to-docx-swap-two');
+
     const operation = window.location.href.match(/[^\/]+$/)[0];
     let selectedFile = null;
 
