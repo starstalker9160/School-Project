@@ -72,12 +72,12 @@ def download(filename, directory):
 
 
 @app.errorhandler(404)
-def not_found(error):
-    return render_template("404.html", bg = colour), 404
+def not_found_404(error):
+    return render_template("404.html", bg = color), 404
 
 @app.errorhandler(405)
-def not_found(error):
-    return render_template("405.html", bg = colour), 405
+def not_found_405(error):
+    return render_template("405.html", bg = color), 405
 
 
 if __name__ == "__main__":
