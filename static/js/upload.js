@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    bigBoiButton.addEventListener('click', () => {
+    convertButton.addEventListener('click', () => {
         if (selectedFile) { uploadFile(selectedFile); }
         else { alert("Please select a file first!"); }
     });
