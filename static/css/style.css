@@ -20,7 +20,12 @@ button {
     transition: all 0.15s ease-in-out;
 }
 
-button:hover {
+button:disabled {
+    background-color: #505050;
+    cursor: not-allowed;
+}
+
+button:hover:not(:disabled){
     cursor: pointer;
     background-color: #202020;
 }
@@ -140,4 +145,41 @@ button:active {
 
 .hidden {
     display: none;
+}
+
+/* merge specific */
+
+.file-list {
+    padding: 0.5rem;
+    width: 80rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #00000030;
+    gap: 10px;
+    border-radius: 10px;
+}
+
+.tile {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    height: 3rem;
+    aspect-ratio: 8 / 1;
+    border-radius: 10px;
+    background-color: #ffffff;
+}
+
+.tile .file-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex-grow: 1;
+}
+
+#fa {
+    padding-left: 0.9rem;
+    padding-right: 0.6rem;
 }

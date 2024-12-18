@@ -39,7 +39,7 @@ def upload_file():
     if "file" not in request.files:
         return jsonify({"error": "No file part"}), 400
 
-    file = request.files["file"]
+    files = request.files.getlist("file")
     metadata = request.form.get("metadata")
 
     if not metadata:
@@ -48,23 +48,35 @@ def upload_file():
     try:
         metadata = json.loads(metadata)
     except ValueError:
-        return jsonify({"error": "invalid metadata format"}), 400
+        print(metadata)
+        return jsonify({"error": "Invalid metadata format"}), 400
 
-    if file.filename == "":
-        return jsonify({"error": "no selected file"}), 400
+    if not files:
+        return jsonify({"error": "No files selected"}), 400
 
-    if file and (str(file.filename).endswith(".pdf") or str(file.filename).endswith(".docx")):
-        pdf_path = os.path.join(app.config["UPLOAD_FOLDER"], str(file.filename))
-        file.save(pdf_path)
+    allowedExts = {".pdf", ".docx", ".doc"}
+    for i in files:
+        if i.filename == "":
+            return jsonify({"error": "No selected file"}), 400
 
-        with open(os.path.join(app.config["UPLOAD_FOLDER"], "metadata.json"), "w") as f:
-            json.dump(metadata, f, indent=4)
+        ext = os.path.splitext(i.filename)[1].lower()
+        if ext not in allowedExts:
+            return jsonify({"error": f"Invalid file type for {i.filename}"}), 400
 
-        Handler.handle()
+    rEee = []
+    for i in files:
+        name = i.filename
+        path = os.path.join(app.config["UPLOAD_FOLDER"], name)
 
-        return jsonify({"message": "upload completed successfully"}), 200
-    else:
-        return jsonify({"error": "invalid file type"}), 400
+        i.save(path)
+        rEee.append(path)
+
+    with open(os.path.join(app.config["UPLOAD_FOLDER"], "metadata.json"), "w") as f:
+        json.dump(metadata, f, indent=4)
+
+    Handler.handle()
+
+    return jsonify({"message": "Upload completed successfully"}), 200
 
 def download(filename, directory):
     """Use to send file to the user for download"""

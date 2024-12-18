@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" style="background-color: {{ bg }};">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,11 +12,13 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/css/fontawesome.min.css') }}">
 
     <link rel="stylesheet" href="/static/css/style.css">
-    <!-- <script src="/static/js/script.js"></script> -->
-    <script src="/static/js/upload.js"></script>
+    <style>
+        .tile { background-color: {{ bg }}; }
+    </style>
+    <script src="/static/js/merge.js"></script>
+
     <title>PDFiles | Merge</title>
 </head>
-
 <body>
     <p class="titleBar"><b><a href="/" class="logo">PDFiles</a></b></p>
     <h1 class="title"><i class="fa-solid fa-object-group"></i> Merge</h1>
@@ -25,12 +26,15 @@
         <div id="drop-area">
             <p>Drag and drop a PDF file here</p>
             <input type="file" id="file-elem" accept=".pdf" multiple style="display:none">
-            <button id="file-select">Select file</button>
+            <button id="file-select">Select files</button>
         </div>
-        <div class="belowStuff">
-            <div class="inputFields">First PDF: <input class="page" type="number" value="1"></div>
+
+        <div class="hidden belowStuff">
+            <div class="inputFields">
+                <div id="pdf-ordering" class="file-list"></div>
+            </div>
             <button class="submit" id="convert-button">Merge PDF</button>
         </div>
+    </div>
 </body>
-
 </html>
