@@ -46,6 +46,7 @@ def upload_file():
         return jsonify({"error": "No metadata provided"}), 400
 
     try:
+        print(metadata)
         metadata = json.loads(metadata)
     except ValueError:
         return jsonify({"error": "invalid metadata format"}), 400
@@ -53,7 +54,7 @@ def upload_file():
     if file.filename == "":
         return jsonify({"error": "no selected file"}), 400
 
-    if file and str(file.filename).endswith(".pdf"):
+    if file and (str(file.filename).endswith(".pdf") or str(file.filename).endswith(".docx")):
         pdf_path = os.path.join(app.config["UPLOAD_FOLDER"], str(file.filename))
         file.save(pdf_path)
 

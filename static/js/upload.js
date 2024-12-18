@@ -88,9 +88,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 vals = [];
                 break;
 
-            case "from-pdf":
+            case "to-docx":
                 metadata = {
-                    "operation": "from-pdf",
+                    "operation": "to-docx",
                     "file name": fileName,
                     "operationSpecificInfo": {}
                 };
