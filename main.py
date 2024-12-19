@@ -5,8 +5,14 @@ from flask import Flask, render_template, request, jsonify, send_from_directory
 app = Flask(__name__)
 
 UPLOAD_FOLDER = "uploads"
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
+if os.path.exists(UPLOAD_FOLDER):
+    for root, dirs, files in os.walk(UPLOAD_FOLDER, topdown=False):
+        for file in files:
+            os.remove(os.path.join(root, file))
+        for dir in dirs:
+            os.rmdir(os.path.join(root, dir))
+    os.rmdir(UPLOAD_FOLDER)
+os.makedirs(UPLOAD_FOLDER)
 
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 

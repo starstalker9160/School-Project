@@ -1,20 +1,53 @@
-#  heyyyyy
-#  so the pdfs will be located in /uploads
-#  the metadata.json will contain the info on what you need to do to the pdf
-#  
-#  example metadata.json:
-#  
-#  {
-#      "operation": "split",
-#      "file name": "asdf.pdf",
-#      "operationSpecificInfo": {
-#          "SplitOnPage": 5
-#      }
-#  }
-# 
-#  there can only be one metadata file at a time, please load the metadata into a dict obj and then delete the file
+import os, json
+
 
 def handle():
     """Handles the uploaded pdf file and performs operation"""
-    # go
-    pass
+    with open("uploads/metadata.json", 'r') as f:
+        metadata = json.load(f)
+        f.close()
+    match metadata["operation"]:
+        case "split":
+            PDFThingy.split(metadata["file name"], metadata["operationSpecificInfo"]["splitOnPage"])
+        case "to-docx":
+            PDFThingy.to_docx(metadata["file name"])
+        case "from-docx":
+            PDFThingy.from_docx(metadata["file name"])
+    
+
+class PDFThingy:
+    @staticmethod
+    def split(fileName: str, page: int) -> None:
+        # relevant functionality
+        PDFThingy.cleanup()
+        pass
+    
+    @staticmethod
+    def merge(file1: str, file2: str, order: list) -> None:
+        # relevant functionality
+        PDFThingy.cleanup()
+        pass
+    
+    @staticmethod
+    def to_docx(fileName: str) -> None:
+        # relevant functionality
+        PDFThingy.cleanup()
+        pass
+
+    @staticmethod
+    def from_docx(fileName: str) -> None:
+        # relevant functionality
+        PDFThingy.cleanup()
+        pass
+    
+    @staticmethod
+    def cleanup() -> None:
+        if os.path.exists("uploads/"):
+            for r, d, f in os.walk("uploads/", topdown=False):
+                for i in f:
+                    os.remove(os.path.join(r, i))
+                for j in d:
+                    os.rmdir(os.path.join(r, j))
+            os.rmdir("uploads/")
+        
+        os.makedirs("uploads/")
