@@ -20,25 +20,21 @@ class PDFThingy:
     def split(fileName: str, page: int) -> None:
         # relevant functionality
         PDFThingy.cleanup()
-        pass
     
     @staticmethod
     def merge(file1: str, file2: str, order: list) -> None:
         # relevant functionality
         PDFThingy.cleanup()
-        pass
     
     @staticmethod
     def to_docx(fileName: str) -> None:
         # relevant functionality
         PDFThingy.cleanup()
-        pass
 
     @staticmethod
     def from_docx(fileName: str) -> None:
         # relevant functionality
         PDFThingy.cleanup()
-        pass
     
     @staticmethod
     def cleanup() -> None:

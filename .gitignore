@@ -1,3 +1,5 @@
-/uploads/*
+/uploads
+/out
+/__pycache__
 /*/__pycache__
 line-counter.exe
