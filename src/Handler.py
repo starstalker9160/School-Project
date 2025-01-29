@@ -1,6 +1,7 @@
 import os, json
 import re
 import pypdf
+from PyPDF2 import PdfMerger
 
 def handle():
     """Handles the uploaded pdf file and performs operation"""
@@ -14,6 +15,8 @@ def handle():
             PDFHandler.to_docx(metadata["file name"])
         case "from-docx":
             PDFHandler.from_docx(metadata["file name"])
+        case "merge":
+            PDFHandler.merge(metadata["file name"])
     
 
 class PDFHandler:
@@ -45,9 +48,12 @@ class PDFHandler:
         PDFHandler.cleanup()
     
     @staticmethod
-    def merge(file1: str, file2: str, order: list) -> None:
-        # relevant functionality
-        PDFHandler.cleanup()
+    def merge(files:list[str]) -> None:
+        merger = PdfMerger()
+        for file in files:
+            merger.append(os.path.join("uploads", file))
+
+        merger.write(os.path.join("merged.pdf"))
     
     @staticmethod
     def to_docx(file_name: str) -> None:
