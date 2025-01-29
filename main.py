@@ -65,14 +65,17 @@ def upload_file():
         if i.filename == "":
             return jsonify({"error": "No selected file"}), 400
 
-        ext = os.path.splitext(i.filename)[1].lower()
+        if i.filename is None:
+            return jsonify({"error": "File name is None"}), 400
+        ext = path.splitext(i.filename)[1].lower()
         if ext not in allowedExts:
             return jsonify({"error": f"Invalid file type for {i.filename}"}), 400
 
     rEee = []
     for i in files:
         name = i.filename
-        path = os.path.join(app.config["UPLOAD_FOLDER"], name)
+        if name is not None:
+            file_path = path.join(app.config["UPLOAD_FOLDER"], name)
 
         i.save(path)
         rEee.append(path)
