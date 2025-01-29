@@ -1,6 +1,7 @@
 import os, json
 import re
 import pypdf
+DOWNLOADS_PATH = path.join(path.expanduser("~"), "Downloads") #! temporarily using Downloads folder
 
 def handle():
     """Handles the uploaded pdf file and performs operation"""
