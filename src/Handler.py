@@ -1,12 +1,13 @@
-import os, json
-import re
-import pypdf
+from os import path, remove, rmdir, walk, makedirs
+from json import load
+from pypdf import PdfReader, PdfWriter
+
 DOWNLOADS_PATH = path.join(path.expanduser("~"), "Downloads") #! temporarily using Downloads folder
 
 def handle():
     """Handles the uploaded pdf file and performs operation"""
     with open("uploads/metadata.json", 'r') as f:
-        metadata = json.load(f)
+        metadata = load(f)
         f.close()
     match metadata["operation"]:
         case "split":
@@ -22,12 +23,11 @@ def handle():
 class PDFHandler:
     @staticmethod
     def split(file_name: str, page_number: int) -> None:
-        # relevant functionality
         
-        reader = pypdf.PdfReader(f"uploads/{file_name}")
+        reader = PdfReader(f"uploads/{file_name}")
         total_pages = len(reader.pages)
-        writer1 = pypdf.PdfWriter()
-        writer2 = pypdf.PdfWriter()
+        writer1 = PdfWriter()
+        writer2 = PdfWriter()
 
         for i in range(total_pages):
             if i < page_number:
@@ -35,13 +35,12 @@ class PDFHandler:
             else:
                 writer2.add_page(reader.pages[i])
     
-        downloads_path = os.path.join(os.path.expanduser("~"), "Downloads") #! temporarily using Downloads folder
-        output_filename1 = os.path.join(downloads_path, f"{file_name}_part_1.pdf")
+        output_filename1 = path.join(DOWNLOADS_PATH, f"{file_name}_part_1.pdf")
         with open(output_filename1, "wb") as output_file1:
             writer1.write(output_file1)
         
         if total_pages > page_number:
-            output_filename2 = os.path.join(downloads_path, f"{file_name}_part_2.pdf")
+            output_filename2 = path.join(DOWNLOADS_PATH, f"{file_name}_part_2.pdf")
             with open(output_filename2, "wb") as output_file2:
                 writer2.write(output_file2)
         
@@ -52,7 +51,7 @@ class PDFHandler:
         merger = PdfWriter()
 
         for file in files:
-            merger.append(os.path.join("uploads", file))
+            merger.append(path.join("uploads", file))
 
         merger.write(path.join(DOWNLOADS_PATH, "merged.pdf"))
         merger.close()
@@ -70,12 +69,12 @@ class PDFHandler:
     
     @staticmethod
     def cleanup() -> None:
-        if os.path.exists("uploads/"):
-            for r, d, f in os.walk("uploads/", topdown=False):
+        if path.exists("uploads/"):
+            for r, d, f in walk("uploads/", topdown=False):
                 for i in f:
-                    os.remove(os.path.join(r, i))
+                    remove(path.join(r, i))
                 for j in d:
-                    os.rmdir(os.path.join(r, j))
-            os.rmdir("uploads/")
+                    rmdir(path.join(r, j))
+            rmdir("uploads/")
         
-        os.makedirs("uploads/")
+        makedirs("uploads/")

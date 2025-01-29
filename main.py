@@ -1,22 +1,26 @@
 from src import Handler
-import os, threading, random, webbrowser, json
+from os import path, remove, rmdir, makedirs, walk
+from threading import Timer
+from random import choice
+from webbrowser import open as webbrowser_open
+from json import dump, loads
 from flask import Flask, render_template, request, jsonify, send_from_directory
 
 app = Flask(__name__)
 
 UPLOAD_FOLDER = "uploads"
-if os.path.exists(UPLOAD_FOLDER):
-    for root, dirs, files in os.walk(UPLOAD_FOLDER, topdown=False):
+if path.exists(UPLOAD_FOLDER):
+    for root, dirs, files in walk(UPLOAD_FOLDER, topdown=False):
         for file in files:
-            os.remove(os.path.join(root, file))
+            remove(path.join(root, file))
         for dir in dirs:
-            os.rmdir(os.path.join(root, dir))
-    os.rmdir(UPLOAD_FOLDER)
-os.makedirs(UPLOAD_FOLDER)
+            rmdir(path.join(root, dir))
+    rmdir(UPLOAD_FOLDER)
+makedirs(UPLOAD_FOLDER)
 
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
-color = random.choice(["#EE6352", "#746AFE", "#59CD90", "#3FA7D6", "#FAC05E"])
+color = choice(["#EE6352", "#746AFE", "#59CD90", "#3FA7D6", "#FAC05E"])
 
 
 @app.route("/")
@@ -52,7 +56,7 @@ def upload_file():
         return jsonify({"error": "No metadata provided"}), 400
 
     try:
-        metadata = json.loads(metadata)
+        metadata = loads(metadata)
     except ValueError:
         print(metadata)
         return jsonify({"error": "Invalid metadata format"}), 400
@@ -71,17 +75,17 @@ def upload_file():
         if ext not in allowedExts:
             return jsonify({"error": f"Invalid file type for {i.filename}"}), 400
 
-    rEee = []
+    uploaded_files = []
     for i in files:
         name = i.filename
         if name is not None:
             file_path = path.join(app.config["UPLOAD_FOLDER"], name)
 
-        i.save(path)
-        rEee.append(path)
+            i.save(file_path)
+            uploaded_files.append(file_path)
 
-    with open(os.path.join(app.config["UPLOAD_FOLDER"], "metadata.json"), "w") as f:
-        json.dump(metadata, f, indent=4)
+    with open(path.join(app.config["UPLOAD_FOLDER"], "metadata.json"), "w") as f:
+        dump(metadata, f, indent=4)
 
     Handler.handle()
 
