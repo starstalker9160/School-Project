@@ -38,10 +38,10 @@ def merge():
     return render_template("merge.html", bg=color)
 
 
-@app.route('/error')
+@app.route("/error")
 def error_page():
-    error_message = request.args.get('error_message', 'Unknown error occurred')
-    return render_template('error.html', error_message=error_message)
+    error_message = request.args.get("error_message", "Unknown error occurred")
+    return render_template("error.html", error_data={"color": color, "error_message": error_message})
 
 
 @app.route("/upload", methods=["POST"])
@@ -91,8 +91,8 @@ def upload_file():
         Handler.handle()
         return jsonify({"message": "Operation completed successfully."}), 200
     except Exception as e:
-        return redirect(url_for("error_page", error_message=str(e)))
-    
+        return redirect(url_for("error_page", error_message=str(e), color=color))
+
 
 def download(filename, directory):
     """Use to send file to the user for download"""

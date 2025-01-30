@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="background-color: {{ bg }};">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,5 +9,8 @@
 <body>
     <h1>Error</h1>
     <p>{{ error_message }}</p>
+        const color = urlParams.get('color');
+
+        document.body.style.backgroundColor = color;
 </body>
 </html>
