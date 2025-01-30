@@ -1,4 +1,4 @@
-from src import Handler
+from src import Handler, colors
 from os import path, remove, rmdir, makedirs, walk
 from random import choice
 from threading import Timer
@@ -20,8 +20,7 @@ if path.exists(UPLOAD_FOLDER):
 makedirs(UPLOAD_FOLDER)
 
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
-
-color = choice(["#EE6352", "#746AFE", "#59CD90", "#3FA7D6", "#FAC05E"])
+color = choice(colors.colors)
 
 
 @app.route("/")
