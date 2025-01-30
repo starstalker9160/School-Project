@@ -111,19 +111,28 @@ document.addEventListener('DOMContentLoaded', () => {
         const fD = new FormData();
         fD.append('file', file);
         fD.append('metadata', JSON.stringify(doMetadata(file.name)));
-
+    
         fetch('/upload', {
             method: 'POST',
             body: fD,
         })
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    alert(data.error);
-                } else {
-                    alert(data.message);
-                }
-            })
-            .catch(error => console.error('Error:', error));
+        .then(response => {
+            const contentType = response.headers.get('Content-Type');
+    
+            if (response.ok && contentType && contentType.includes('application/json')) {
+                return response.json();
+            } else if (response.ok && contentType) {
+                window.location.href = response.url;
+                return Promise.reject('Redirecting to error page');
+            } else {
+                return Promise.reject('Unexpected response type');
+            }
+        })
+        .then(data => {
+            alert(data.message);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
     }
 });
