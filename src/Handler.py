@@ -71,14 +71,13 @@ class PDFHandler:
         for file in files:
             merger.append(path.join("uploads", file))
 
-        merger.write(path.join(DOWNLOADS_PATH, "merged.pdf"))
-        merger.close()
-        PDFHandler.cleanup()
-
-    @staticmethod
-    def to_docx(file_name: str) -> None:
-        # relevant functionality
-        PDFHandler.cleanup()
+        try:
+            merger.write(path.join(DOWNLOADS_PATH, "merged.pdf"))
+            merger.close()
+            PDFHandler.cleanup()
+        except OSError as e:
+            if e.errno == errorcode[ENOSPC]:
+                raise Exception("Device is out of storage")
 
     @staticmethod
     def cleanup() -> None:
