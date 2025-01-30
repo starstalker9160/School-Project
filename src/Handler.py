@@ -1,6 +1,6 @@
-from os import path, remove, rmdir, walk, makedirs
 from json import load
 from pypdf import PdfReader, PdfWriter
+from os import path, remove, rmdir, walk, makedirs
 
 DOWNLOADS_PATH = path.join(path.expanduser("~"), "Downloads") #! temporarily using Downloads folder
 
