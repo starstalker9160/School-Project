@@ -1,6 +1,7 @@
 from json import load
 from pypdf import PdfReader, PdfWriter
 from os import path, remove, rmdir, makedirs, walk
+from errno import errorcode, ENOSPC
 
 DOWNLOADS_PATH = path.join(
     path.expanduser("~"), "Downloads"
@@ -31,6 +32,15 @@ class PDFHandler:
     def split(file_name: str, page_number: int):
         reader = PdfReader(f"uploads/{file_name}")
         total_pages = len(reader.pages)
+
+        if not 0 < page_number < total_pages:
+            raise InvalidPageNumberException
+
+        try:
+            page_number = int(page_number)
+        except ValueError:
+            raise InvalidPageNumberException
+
         writer1 = PdfWriter()
         writer2 = PdfWriter()
 
@@ -41,13 +51,18 @@ class PDFHandler:
                 writer2.add_page(reader.pages[i])
 
         output_filename1 = path.join(DOWNLOADS_PATH, f"{file_name}_part_1.pdf")
-        with open(output_filename1, "wb") as output_file1:
-            writer1.write(output_file1)
 
-        if total_pages > page_number:
-            output_filename2 = path.join(DOWNLOADS_PATH, f"{file_name}_part_2.pdf")
-            with open(output_filename2, "wb") as output_file2:
-                writer2.write(output_file2)
+        try:
+            with open(output_filename1, "wb") as output_file1:
+                writer1.write(output_file1)
+
+            if total_pages > page_number:
+                output_filename2 = path.join(DOWNLOADS_PATH, f"{file_name}_part_2.pdf")
+                with open(output_filename2, "wb") as output_file2:
+                    writer2.write(output_file2)
+        except OSError as e:
+            if e.errno == errorcode[ENOSPC]:
+                raise Exception("Device is out of storage")
 
         PDFHandler.cleanup()
 
@@ -78,3 +93,11 @@ class PDFHandler:
             rmdir("uploads/")
 
         makedirs("uploads/")
+
+
+class InvalidPageNumberException(Exception):
+    def __init__(self, *args: object) -> None:
+        super().__init__(*args)
+
+    def __str__(self) -> str:
+        return "Invalid page number provided"
