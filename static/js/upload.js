@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const fD = new FormData();
         fD.append('file', file);
         fD.append('metadata', JSON.stringify(doMetadata(file.name)));
-    
+
         fetch('/upload', {
             method: 'POST',
             body: fD,

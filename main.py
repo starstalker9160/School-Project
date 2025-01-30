@@ -5,7 +5,16 @@ from threading import Timer
 from json import dump, loads
 from webbrowser import open as webbrowser_open
 from json import dump, loads
-from flask import Flask, render_template, request, jsonify, send_from_directory, url_for, redirect
+from flask import (
+    Flask,
+    render_template,
+    request,
+    jsonify,
+    send_from_directory,
+    url_for,
+    redirect,
+)
+
 
 app = Flask(__name__)
 
@@ -16,7 +25,9 @@ if path.exists(UPLOAD_FOLDER):
             remove(path.join(r, file))
         for dir in d:
             rmdir(path.join(r, dir))
+
     rmdir(UPLOAD_FOLDER)
+
 makedirs(UPLOAD_FOLDER)
 
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER

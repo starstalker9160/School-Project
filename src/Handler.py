@@ -58,6 +58,7 @@ class PDFHandler:
                 output_filename2 = path.join(DOWNLOADS_PATH, f"{file_name}_part_2.pdf")
                 with open(output_filename2, "wb") as output_file2:
                     writer2.write(output_file2)
+        
         except OSError as e:
             if e.errno == errorcode[ENOSPC]:
                 raise Exception("Device is out of storage")
@@ -65,7 +66,7 @@ class PDFHandler:
         PDFHandler.cleanup()
 
     @staticmethod
-    def merge(files: list[str]):
+    def merge(files: list[str]) -> None:
         merger = PdfWriter()
 
         for file in files:
