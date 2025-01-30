@@ -25,23 +25,29 @@ color = choice(["#EE6352", "#746AFE", "#59CD90", "#3FA7D6", "#FAC05E"])
 
 @app.route("/")
 def home():
-    return render_template("index.html", bg = color)
+    return render_template("index.html", bg=color)
+
 
 @app.route("/split")
 def split():
-    return render_template("split.html", bg = color)
+    return render_template("split.html", bg=color)
+
 
 @app.route("/merge")
 def merge():
-    return render_template("merge.html", bg = color)
+    return render_template("merge.html", bg=color)
+
 
 @app.route("/from-docx")
 def from_docx():
-    return render_template("from-docx.html", bg = color)
+    return render_template("from-docx.html", bg=color)
+
 
 @app.route("/to-docx")
 def to_docx():
-    return render_template("to-docx.html", bg = color)
+    return render_template("to-docx.html", bg=color)
+
+
 @app.route('/error')
 def error_page():
     error_message = request.args.get('error_message', 'Unknown error occurred')
@@ -105,17 +111,18 @@ def download(filename, directory):
 
 @app.errorhandler(404)
 def not_found_404(error):
-    return render_template("404.html", bg = color), 404
+    return render_template("404.html", bg=color), 404
+
 
 @app.errorhandler(405)
 def not_found_405(error):
-    return render_template("405.html", bg = color), 405
+    return render_template("405.html", bg=color), 405
 
 
 if __name__ == "__main__":
     try:
         print("[  OK  ] Starting app")
-        Timer(1, lambda: webbrowser_open('http://127.0.0.1:8080')).start()
+        Timer(1, lambda: webbrowser_open("http://127.0.0.1:8080")).start()
         app.run(host="127.0.0.1", port=8080, debug=False)
     except Exception as e:
         print(f"[ FAIL ] Error: {e}")

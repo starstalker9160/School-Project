@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const icon = document.createElement('i');
         icon.classList.add('fa-regular', 'fa-file-pdf');
-        
+
         tile.appendChild(icon);
         tile.appendChild(document.createTextNode(file.name));
 
