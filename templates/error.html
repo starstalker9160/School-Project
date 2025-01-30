@@ -4,13 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Error Page</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/css/fontawesome.min.css') }}">
+
+    <link rel="stylesheet" href="/static/css/404.css">
+    <title>PDFiles | Exception</title>
 </head>
+
 <body>
     <h1>Error</h1>
-    <p>{{ error_message }}</p>
+    <p id="error-message"></p>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const errorMessage = urlParams.get('error_message');
         const color = urlParams.get('color');
 
         document.body.style.backgroundColor = color;
+        document.getElementById('error-message').textContent = errorMessage;
+    </script>
 </body>
+
 </html>
