@@ -18,7 +18,7 @@ def handle():
         case "split":
             PDFHandler.split(
                 metadata["file name"],
-                int(metadata["operationSpecificInfo"]["splitOnPage"]),
+                metadata["operationSpecificInfo"]["splitOnPage"],
             )
 
         case "merge":
@@ -31,13 +31,13 @@ class PDFHandler:
         reader = PdfReader(f"uploads/{file_name}")
         total_pages = len(reader.pages)
 
-        if not 0 < page_number < total_pages:
-            raise InvalidPageNumberException
-
         try:
             page_number = int(page_number)
         except ValueError:
-            raise InvalidPageNumberException
+            raise InvalidPageNumberException(f"{page_number} is not a valid page number to split by.")
+
+        if not 0 < page_number < total_pages:
+            raise InvalidPageNumberException(f"{page_number} is not a valid page number to split by.")
 
         writer1 = PdfWriter()
         writer2 = PdfWriter()
@@ -94,8 +94,9 @@ class PDFHandler:
 
 
 class InvalidPageNumberException(Exception):
-    def __init__(self, *args: object) -> None:
+    def __init__(self, message="Invalid page number provided", *args: object) -> None:
         super().__init__(*args)
+        self.message = message
 
     def __str__(self) -> str:
-        return "Invalid page number provided"
+        return self.message
