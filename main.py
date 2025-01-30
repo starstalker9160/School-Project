@@ -4,7 +4,7 @@ from threading import Timer
 from random import choice
 from webbrowser import open as webbrowser_open
 from json import dump, loads
-from flask import Flask, render_template, request, jsonify, send_from_directory
+from flask import Flask, render_template, request, jsonify, send_from_directory, url_for, redirect
 
 app = Flask(__name__)
 
@@ -42,6 +42,10 @@ def from_docx():
 @app.route("/to-docx")
 def to_docx():
     return render_template("to-docx.html", bg = color)
+@app.route('/error')
+def error_page():
+    error_message = request.args.get('error_message', 'Unknown error occurred')
+    return render_template('error.html', error_message=error_message)
 
 
 @app.route("/upload", methods=["POST"])
@@ -87,9 +91,12 @@ def upload_file():
     with open(path.join(app.config["UPLOAD_FOLDER"], "metadata.json"), "w") as f:
         dump(metadata, f, indent=4)
 
-    Handler.handle()
-
-    return jsonify({"message": "Upload completed successfully"}), 200
+    try:
+        Handler.handle()
+        return jsonify({"message": "Operation completed successfully."}), 200
+    except Exception as e:
+        return redirect(url_for("error_page", error_message=str(e)))
+    
 
 def download(filename, directory):
     """Use to send file to the user for download"""
