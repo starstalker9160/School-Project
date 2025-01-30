@@ -81,8 +81,11 @@ def upload_file():
         if name is not None:
             file_path = path.join(app.config["UPLOAD_FOLDER"], name)
 
-            i.save(file_path)
-            uploaded_files.append(file_path)
+            try:
+                i.save(file_path)
+                uploaded_files.append(file_path)
+            except OSError:
+                return jsonify({"error": "Failed to save file"}), 500
 
     with open(path.join(app.config["UPLOAD_FOLDER"], "metadata.json"), "w") as f:
         dump(metadata, f, indent=4)
