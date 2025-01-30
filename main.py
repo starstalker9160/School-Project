@@ -38,16 +38,6 @@ def merge():
     return render_template("merge.html", bg=color)
 
 
-@app.route("/from-docx")
-def from_docx():
-    return render_template("from-docx.html", bg=color)
-
-
-@app.route("/to-docx")
-def to_docx():
-    return render_template("to-docx.html", bg=color)
-
-
 @app.route('/error')
 def error_page():
     error_message = request.args.get('error_message', 'Unknown error occurred')
@@ -74,7 +64,7 @@ def upload_file():
     if not files:
         return jsonify({"error": "No files selected"}), 400
 
-    allowedExts = {".pdf", ".docx", ".doc"}
+    allowedExts = {".pdf"}
     for i in files:
         if i.filename == "":
             return jsonify({"error": "No selected file"}), 400

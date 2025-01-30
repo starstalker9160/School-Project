@@ -21,8 +21,6 @@ def handle():
                 int(metadata["operationSpecificInfo"]["splitOnPage"]),
             )
 
-        case "to-docx":
-            PDFHandler.to_docx(metadata["file name"])
         case "merge":
             PDFHandler.merge(metadata["file name"])
 

@@ -36,13 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
             selectedFile = fileElem.files[0];
 
             switch (operation) {
-                case "from-docx":
-                    fromDocxToPdf(selectedFile.name);
-                    break;
-
-                case "to-docx":
-                    toDocxFromPdf(selectedFile.name);
-                    break;
             }
         }
     });
@@ -52,18 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
         else { alert("Please select a file first!"); }
     });
 
-    function fromDocxToPdf(filename) {
-        fromDocxSwapOne.classList.toggle('hidden');
-        fromDocxSwapTwo.classList.toggle('hidden');
         convertButton.classList.toggle('hidden');
-        docFileName.innerHTML = filename;
-        pdfFileName.innerHTML = filename.replace(/\.[^/.]+$/, "") + ".pdf";
-    }
-
-    function toDocxFromPdf(filename) {
-        toDocxSwapOne.classList.toggle('hidden');
-        toDocxSwapTwo.classList.toggle('hidden');
-        pdfFileName.innerHTML = filename;
         docFileName.innerHTML = filename.replace(/\.[^/.]+$/, "") + ".docx";
     }
 
@@ -86,22 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 };
                 vals = [];
-                break;
-
-            case "to-docx":
-                metadata = {
-                    "operation": "to-docx",
-                    "file name": fileName,
-                    "operationSpecificInfo": {}
-                };
-                break;
-
-            case "from-docx":
-                metadata = {
-                    "operation": "from-docx",
-                    "file name": fileName,
-                    "operationSpecificInfo": {}
-                };
                 break;
         }
         return metadata;
