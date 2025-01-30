@@ -1,7 +1,7 @@
 from src import Handler
-from os import path, remove, rmdir, makedirs, walk
-from threading import Timer
 from random import choice
+from threading import Timer
+from json import dump, loads
 from webbrowser import open as webbrowser_open
 from json import dump, loads
 from flask import Flask, render_template, request, jsonify, send_from_directory, url_for, redirect
@@ -10,11 +10,11 @@ app = Flask(__name__)
 
 UPLOAD_FOLDER = "uploads"
 if path.exists(UPLOAD_FOLDER):
-    for root, dirs, files in walk(UPLOAD_FOLDER, topdown=False):
-        for file in files:
-            remove(path.join(root, file))
-        for dir in dirs:
-            rmdir(path.join(root, dir))
+    for r, d, f in walk(UPLOAD_FOLDER, topdown=False):
+        for file in f:
+            remove(path.join(r, file))
+        for dir in d:
+            rmdir(path.join(r, dir))
     rmdir(UPLOAD_FOLDER)
 makedirs(UPLOAD_FOLDER)
 

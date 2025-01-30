@@ -1,4 +1,3 @@
-from os import path, remove, rmdir, walk, makedirs
 from json import load
 from pypdf import PdfReader, PdfWriter
 
@@ -66,11 +65,6 @@ class PDFHandler:
 
     @staticmethod
     def to_docx(file_name: str) -> None:
-        # relevant functionality
-        PDFHandler.cleanup()
-
-    @staticmethod
-    def from_docx(file_name: str) -> None:
         # relevant functionality
         PDFHandler.cleanup()
 
