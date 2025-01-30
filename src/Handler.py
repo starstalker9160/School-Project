@@ -1,5 +1,6 @@
 from json import load
 from pypdf import PdfReader, PdfWriter
+from os import path, remove, rmdir, makedirs, walk
 
 DOWNLOADS_PATH = path.join(
     path.expanduser("~"), "Downloads"
@@ -21,8 +22,6 @@ def handle():
 
         case "to-docx":
             PDFHandler.to_docx(metadata["file name"])
-        case "from-docx":
-            PDFHandler.from_docx(metadata["file name"])
         case "merge":
             PDFHandler.merge(metadata["file name"])
 
