@@ -1,5 +1,5 @@
 flask
+pypdf
 # pdf2image
-# pypdf
 # pdf2docx
 # docx2pdf
