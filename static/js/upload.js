@@ -77,23 +77,26 @@ document.addEventListener('DOMContentLoaded', () => {
             method: 'POST',
             body: fD,
         })
-        .then(response => {
-            const contentType = response.headers.get('Content-Type');
-    
-            if (response.ok && contentType && contentType.includes('application/json')) {
-                return response.json();
-            } else if (response.ok && contentType) {
-                window.location.href = response.url;
-                return Promise.reject('Redirecting to error page');
-            } else {
-                return Promise.reject('Unexpected response type');
-            }
-        })
-        .then(data => {
-            alert(data.message);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+            .then(response => {
+                const contentType = response.headers.get('Content-Type');
+
+                if (response.ok && contentType && contentType.includes('application/json')) {
+                    return response.json();
+                } else if (response.ok && contentType) {
+                    const url = new URL(response.url);
+                    const errorMessage = url.searchParams.get('error_message');
+                    const color = url.searchParams.get('color');
+                    window.location.href = `/error?error_message=${encodeURIComponent(errorMessage)}&color=${encodeURIComponent(color)}`;
+                    return Promise.reject('Redirecting to error page');
+                } else {
+                    return Promise.reject('Unexpected response type');
+                }
+            })
+            .then(data => {
+                alert(data.message);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     }
 });
