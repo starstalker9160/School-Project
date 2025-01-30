@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" style="background-color: {{ bg }};">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,22 +20,46 @@
     <script src="/static/js/upload.js"></script>
     <title>PDFiles | Split</title>
 </head>
+
 <body>
     <p class="titleBar"><b><a href="/" class="logo">PDFiles</a></b></p>
     <h1 class="title"><i class="fa-solid fa-arrows-split-up-and-left"></i> Split PDF</h1>
     <div class="content">
         <div id="drop-area">
-            <p>Drag and drop a PDF file here</p>
-            <input type="file" id="file-elem" accept=".pdf" style="display:none">
-            <button id="file-select">Select file</button>
+            <div id="split-swap-one">
+                <p>Drag and drop a PDF file here</p>
+                <input type="file" id="file-elem" accept=".pdf" style="display:none">
+                <button id="file-select">Select file</button>
+            </div>
+            <div id="split-swap-two" class="hidden split-container">
+                <div id="inputted-pdf-side" class="pdf-side">
+                    <i class="fa-regular fa-file-pdf" style="font-size: 75px;"></i>
+                    <p id="pdf-file-name"></p>
+                </div>
+                <div id="arrow">
+                    <img src="{{ url_for('static', filename='split-arrow.png') }}" class="split-arrow">
+                </div>
+                <div id="output-pdfs-side" class="pdf-side output-pdfs">
+                    <div id="output-pdf-one">
+                        <i class="fa-regular fa-file-pdf" style="font-size: 75px;"></i>
+                        <p id="output-pdf-file-one-name"></p>
+                    </div>
+                    <div id="output-pdf-two">
+                        <i class="fa-regular fa-file-pdf" style="font-size: 75px;"></i>
+                        <p id="output-pdf-two-file-name"></p>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="belowStuff">
             <div class="inputFields">
-                <input class="input" required autocomplete="off" type="number" name="split" min="1" step="1">
+                <input class="input" required autocomplete="off" type="number" min="1" step="1" name="split"
+                    oninput="this.value = this.value.replace(/[^1-9]\d*/g, '');">
                 <label class="label" for="split">Split on page</label>
             </div>
-            <button class="submit" id="convert-button">Split PDF</button>
+            <button class="submit hidden" id="convert-button">Split PDF</button>
         </div>
     </div>
 </body>
+
 </html>

@@ -32,6 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
             selectedFile = fileElem.files[0];
 
             switch (operation) {
+                case "split":
+                    split(selectedFile.name)
             }
         }
     });
@@ -41,7 +43,14 @@ document.addEventListener('DOMContentLoaded', () => {
         else { alert("Please select a file first!"); }
     });
 
+    function split(filename) {
+        document.getElementById('split-swap-one').classList.toggle('hidden');
+        document.getElementById('split-swap-two').classList.toggle('hidden');
         convertButton.classList.toggle('hidden');
+        document.getElementById('pdf-file-name').innerHTML = filename;
+        temp = filename;
+        document.getElementById('output-pdf-file-one-name').innerHTML = temp.replace(/\.[^/.]+$/, "") + "_part_1.pdf"
+        document.getElementById('output-pdf-file-two-name').innerHTML = filename.replace(/\.[^/.]+$/, "") + "_part_2.pdf"
     }
 
     function doMetadata(fileName) {
