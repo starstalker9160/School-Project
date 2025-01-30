@@ -61,11 +61,6 @@ class PDFHandler:
     def to_docx(file_name: str) -> None:
         # relevant functionality
         PDFHandler.cleanup()
-
-    @staticmethod
-    def from_docx(file_name: str) -> None:
-        # relevant functionality
-        PDFHandler.cleanup()
     
     @staticmethod
     def cleanup() -> None:
