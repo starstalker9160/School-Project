@@ -46,10 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function split(filename) {
         document.getElementById('split-swap-one').classList.toggle('hidden');
         document.getElementById('split-swap-two').classList.toggle('hidden');
-        convertButton.classList.toggle('hidden');
+        document.getElementById('split-page-input').classList.toggle('hidden');
         document.getElementById('pdf-file-name').innerHTML = filename;
-        temp = filename;
-        document.getElementById('output-pdf-file-one-name').innerHTML = temp.replace(/\.[^/.]+$/, "") + "_part_1.pdf"
+        document.getElementById('output-pdf-file-one-name').innerHTML = filename.replace(/\.[^/.]+$/, "") + "_part_1.pdf"
         document.getElementById('output-pdf-file-two-name').innerHTML = filename.replace(/\.[^/.]+$/, "") + "_part_2.pdf"
     }
 

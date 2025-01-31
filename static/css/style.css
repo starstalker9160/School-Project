@@ -86,38 +86,33 @@ button:active {
 }
 
 .arrowRow {
-    padding-top: 3rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-
-.split-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 3rem;
+    gap: 20px;
+    width: 100%;
+    padding: 20px;
+    position: relative;
 }
 
-.pdf-side {
+.pdf-side, .output-pdfs-side {
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
 }
 
-#arrow {
+#arrow-container {
+    position: relative;
+    width: 10%;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-shrink: 0;
 }
 
 .split-arrow {
-    width: 60px;
+    width: 100%;
     height: auto;
 }
-
 
 .sideButton {
     padding-top: 3rem;
