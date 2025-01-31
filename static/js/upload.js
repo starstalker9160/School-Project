@@ -22,7 +22,11 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
         dropArea.classList.remove('hover');
         const files = event.dataTransfer.files;
-        if (files.length) { selectedFile = files[0]; }
+        if (files.length) {
+            selectedFile = files[0];
+
+            performJSOperation();
+        }
     });
 
     fileSelect.addEventListener('click', () => fileElem.click());
