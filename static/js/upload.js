@@ -31,10 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (fileElem.files.length) {
             selectedFile = fileElem.files[0];
 
-            switch (operation) {
-                case "split":
-                    split(selectedFile.name)
-            }
+            performJSOperation();
         }
     });
 
@@ -42,6 +39,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (selectedFile) { uploadFile(selectedFile); }
         else { alert("Please select a file first!"); }
     });
+
+    function performJSOperation() {
+        switch (operation) {
+            case "split":
+                split(selectedFile.name)
+        }
+    }
 
     function split(filename) {
         document.getElementById('split-swap-one').classList.toggle('hidden');
