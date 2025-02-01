@@ -4,8 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const fileElem = document.getElementById('file-elem');
     const convertButton = document.getElementById('convert-button');
     const inputFields = document.querySelectorAll('.inputFields');
-    const docFileName = document.getElementById('doc-file-name');
-    const pdfFileName = document.getElementById('pdf-file-name');
 
     const operation = window.location.href.match(/[^\/]+$/)[0];
 
