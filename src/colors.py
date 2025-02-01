@@ -1,4 +1,5 @@
 
+#* All 3000 possible background colors
 colors = (
     "#bdc8f2",
     "#e2c2f1",
