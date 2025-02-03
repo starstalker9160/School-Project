@@ -1,9 +1,9 @@
-from src import Handler, colors
-from os import path, remove, rmdir, makedirs, walk
 from random import choice
 from threading import Timer
 from json import dump, loads
+from src import Handler, colors
 from webbrowser import open as webbrowser_open
+from os import path, remove, rmdir, makedirs, walk
 from json import dump, loads
 from flask import (
     Flask,
