@@ -55,7 +55,7 @@
         <div class="belowStuff hidden" id="split-page-input">
             <div class="inputFields">
                 <input class="input" required autocomplete="off" type="number" min="1" step="1" name="split"
-                    oninput="this.value = this.value.replace(/[^1-9]\d*/g, '');">
+                    oninput="this.value = this.value.replace(/^[^1-9]\d*$/g, '');">
                 <label class="label" for="split">Split on page</label>
             </div>
             <button class="submit" id="convert-button">Split PDF</button>
