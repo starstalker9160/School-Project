@@ -148,6 +148,6 @@ if __name__ == "__main__":
     try:
         print("[  OK  ] Starting app")
         Timer(1, lambda: webbrowser_open("http://127.0.0.1:8080")).start()
-        app.run(host="127.0.0.1", port=8080, debug=False)
+        app.run(host="127.0.0.1", port=8080, debug=True)
     except Exception as e:
         print(f"[ FAIL ] Error: {e}")
