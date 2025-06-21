@@ -1,3 +1,4 @@
+import ctypes
 import threading
 import tkinter as tk
 from backend.helper import *
@@ -12,9 +13,11 @@ class Window(tk.Tk):
         self.style = Style(self)
         self.decompiler = Decompiler()
 
+        self.iconbitmap("Assets/icon.ico")
         self.iconphoto(False, ImageTk.PhotoImage(Image.open("Assets/icon.png")))
 
         self.overrideredirect(True)
+        self.after(10, self._restore_window_styles)
         self.geometry("600x400")
         self.configure(bg=self.vars.BG)
 
@@ -135,3 +138,19 @@ class Window(tk.Tk):
             self.current_frame.destroy()
         self.current_frame = frame
         self.current_frame.pack(fill="both", expand=True)
+    
+    def _restore_window_styles(self):
+        hwnd = ctypes.windll.user32.GetParent(self.winfo_id())
+        GWL_EXSTYLE = -20
+        WS_EX_APPWINDOW = 0x00040000
+        WS_EX_TOOLWINDOW = 0x00000080
+        SWP_NOSIZE = 0x0001
+        SWP_NOMOVE = 0x0002
+        SWP_FRAMECHANGED = 0x0020
+
+        style = ctypes.windll.user32.GetWindowLongW(hwnd, GWL_EXSTYLE)
+        style = style & ~WS_EX_TOOLWINDOW
+        style = style | WS_EX_APPWINDOW
+        ctypes.windll.user32.SetWindowLongW(hwnd, GWL_EXSTYLE, style)
+        ctypes.windll.user32.SetWindowPos(hwnd, None, 0, 0, 0, 0,
+            SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED)
