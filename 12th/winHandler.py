@@ -5,8 +5,9 @@ from backend.helper import *
 from tkinter import filedialog
 from PIL import Image, ImageTk
 from backend.decompiler import Decompiler
+from tkinterdnd2 import DND_FILES, TkinterDnD
 
-class Window(tk.Tk):
+class Window(TkinterDnD.Tk):
     def __init__(self):
         super().__init__()
         self.vars = Vars()
@@ -15,6 +16,8 @@ class Window(tk.Tk):
 
         self.iconbitmap("Assets/icon.ico")
         self.iconphoto(False, ImageTk.PhotoImage(Image.open("Assets/icon.png")))
+        
+        self.title("Decompiler")
 
         self.overrideredirect(True)
         self.after(10, self._restore_window_styles)
@@ -27,7 +30,9 @@ class Window(tk.Tk):
         self.container.pack(fill="both", expand=True)
 
         self.current_frame = None
-        self.drag_drop()
+        self.container.drop_target_register(DND_FILES)
+        self.container.dnd_bind('<<Drop>>', self._onDrop)
+        self.dragDrop()
 
     def _create_title_bar(self):
         self.title_bar = tk.Frame(self, bg=self.vars.TITLE_BG, relief="raised", bd=2, height=24)
@@ -45,7 +50,7 @@ class Window(tk.Tk):
 
         # Load icons
         self.min_icon = ImageTk.PhotoImage(Image.open("Assets/minimise_icon.png").resize((16, 16)))
-        self.max_icon = ImageTk.PhotoImage(Image.open("Assets/maximise_icon.png").resize((16, 16)))
+        self.max_icon = ImageTk.PhotoImage(Image.open("Assets/maximize_icon.png").resize((16, 16)))
         self.exit_icon = ImageTk.PhotoImage(Image.open("Assets/exit_icon.png").resize((16, 16)))
 
         closeButt = tk.Button(
@@ -61,7 +66,7 @@ class Window(tk.Tk):
         maxButt = tk.Button(
             self.title_bar,
             image=self.max_icon,
-            command=self.toggle_maximize,
+            command=self.toggleMaximize,
             bg=self.vars.TITLE_BG,
             relief="flat",
             bd=0
@@ -78,15 +83,15 @@ class Window(tk.Tk):
         )
         minButt.pack(side="right", padx=0, pady=2)
 
-        self.title_bar.bind("<Button-1>", self.start_move)
-        self.title_bar.bind("<B1-Motion>", self.do_move)
-        self.title_label.bind("<Button-1>", self.start_move)
-        self.title_label.bind("<B1-Motion>", self.do_move)
+        self.title_bar.bind("<Button-1>", self.startWinMove)
+        self.title_bar.bind("<B1-Motion>", self.doWinMove)
+        self.title_label.bind("<Button-1>", self.startWinMove)
+        self.title_label.bind("<B1-Motion>", self.doWinMove)
 
         self._isMaximised = False
         self._geom = self.geometry()
 
-    def toggle_maximize(self):
+    def toggleMaximize(self):
         if not self._isMaximised:
             self._geom = self.geometry()
             self.geometry(f"{self.winfo_screenwidth()}x{self.winfo_screenheight()}+0+0")
@@ -95,17 +100,17 @@ class Window(tk.Tk):
             self.geometry(self._geom)
             self._isMaximised = False
 
-    def start_move(self, event):
+    def startWinMove(self, event):
         self._x = event.x
         self._y = event.y
 
-    def do_move(self, event):
+    def doWinMove(self, event):
         x = self.winfo_pointerx() - self._x
         y = self.winfo_pointery() - self._y
         self.geometry(f"+{x}+{y}")
 
-    def drag_drop(self):
-        self._switch_frame(tk.Frame(self.container, bg=self.vars.BG))
+    def dragDrop(self):
+        self._switchFrame(tk.Frame(self.container, bg=self.vars.BG))
 
         label = tk.Label(self.current_frame, text="Drag and Drop Folder Here", bg=self.vars.BG, font=self.vars.FONT)
         label.pack(pady=100)
@@ -113,27 +118,39 @@ class Window(tk.Tk):
         button = tk.Button(self.current_frame, text="...or Click to Select Folder", command=self.select_folder)
         button.pack()
 
+    def _onDrop(self, event):
+        paths = self.tk.splitlist(event.data)
+        folder = None
+        for path in paths:
+            import os
+            if os.path.isdir(path):
+                folder = path
+                break
+        if folder:
+            self.scanning(folder)
+
     def select_folder(self):
         folder = filedialog.askdirectory()
         if folder:
             self.scanning(folder)
 
     def scanning(self, folder):
-        self._switch_frame(tk.Frame(self.container, bg=self.vars.BG))
+        self.container.drop_target_unregister()
+        self._switchFrame(tk.Frame(self.container, bg=self.vars.BG))
         label = tk.Label(self.current_frame, text="Scanning, please wait...", font=self.vars.FONT, bg=self.vars.BG)
         label.pack(pady=150)
-        threading.Thread(target=self._run_scan, args=(folder,)).start()
+        threading.Thread(target=self._scanner, args=(folder,)).start()
 
-    def _run_scan(self, folder):
+    def _scanner(self, folder):
         self.decompiler.scan(folder)
         self.after(0, self.options)
 
     def options(self):
-        self._switch_frame(tk.Frame(self.container, bg=self.vars.BG))
+        self._switchFrame(tk.Frame(self.container, bg=self.vars.BG))
         label = tk.Label(self.current_frame, text="Scan complete. Choose options:", font=self.vars.FONT, bg=self.vars.BG)
         label.pack(pady=50)
 
-    def _switch_frame(self, frame):
+    def _switchFrame(self, frame):
         if self.current_frame:
             self.current_frame.destroy()
         self.current_frame = frame
