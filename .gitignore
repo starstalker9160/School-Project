@@ -2,6 +2,8 @@
 **/line-counter.exe
 **/builds
 *.spec
+*.pyc
+venv/
 
 /11th/uploads
 /11th/out
