@@ -1,8 +1,8 @@
 import threading
 import tkinter as tk
+from backend.helper import *
 from tkinter import filedialog
 from PIL import Image, ImageTk
-from backend.helper import Vars, Style
 from backend.decompiler import Decompiler
 
 class Window(tk.Tk):
