@@ -51,6 +51,7 @@ class Window(TkinterDnD.Tk):
         # Load icons
         self.min_icon = ImageTk.PhotoImage(Image.open("Assets/minimise_icon.png").resize((16, 16)))
         self.max_icon = ImageTk.PhotoImage(Image.open("Assets/maximize_icon.png").resize((16, 16)))
+        self.unmax_icon = ImageTk.PhotoImage(Image.open("Assets/unMaximize_icon.png").resize((16, 16)))
         self.exit_icon = ImageTk.PhotoImage(Image.open("Assets/exit_icon.png").resize((16, 16)))
 
         closeButt = tk.Button(
@@ -63,7 +64,7 @@ class Window(TkinterDnD.Tk):
         )
         closeButt.pack(side="right", padx=2, pady=2)
 
-        maxButt = tk.Button(
+        self.maxButt = tk.Button(
             self.title_bar,
             image=self.max_icon,
             command=self.toggleMaximize,
@@ -71,7 +72,7 @@ class Window(TkinterDnD.Tk):
             relief="flat",
             bd=0
         )
-        maxButt.pack(side="right", padx=0, pady=2)
+        self.maxButt.pack(side="right", padx=0, pady=2)
 
         minButt = tk.Button(
             self.title_bar,
@@ -96,9 +97,11 @@ class Window(TkinterDnD.Tk):
             self._geom = self.geometry()
             self.geometry(f"{self.winfo_screenwidth()}x{self.winfo_screenheight()}+0+0")
             self._isMaximised = True
+            self.maxButt.config(image=self.unmax_icon)
         else:
             self.geometry(self._geom)
             self._isMaximised = False
+            self.maxButt.config(image=self.max_icon)
 
     def startWinMove(self, event):
         self._x = event.x
@@ -127,17 +130,17 @@ class Window(TkinterDnD.Tk):
                 folder = path
                 break
         if folder:
-            self.scanning(folder)
+            self.intermediate(folder, "Scanning, please wait...")
 
     def select_folder(self):
         folder = filedialog.askdirectory()
         if folder:
-            self.scanning(folder)
+            self.intermediate(folder, "Scanning, please wait...")
 
-    def scanning(self, folder):
+    def intermediate(self, folder, msg: str):
         self.container.drop_target_unregister()
         self._switchFrame(tk.Frame(self.container, bg=self.vars.BG))
-        label = tk.Label(self.current_frame, text="Scanning, please wait...", font=self.vars.FONT, bg=self.vars.BG)
+        label = tk.Label(self.current_frame, text=msg, font=self.vars.FONT, bg=self.vars.BG)
         label.pack(pady=150)
         threading.Thread(target=self._scanner, args=(folder,)).start()
 
