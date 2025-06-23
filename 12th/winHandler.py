@@ -115,10 +115,10 @@ class Window(TkinterDnD.Tk):
     def dragDrop(self):
         self._switchFrame(tk.Frame(self.container, bg=self.vars.BG))
 
-        label = tk.Label(self.current_frame, text="Drag and Drop Folder Here", bg=self.vars.BG, font=self.vars.FONT)
+        label = tk.Label(self.current_frame, text="Drag'n'drop .dll/.exe files here", bg=self.vars.BG, font=self.vars.FONT)
         label.pack(pady=100)
 
-        button = tk.Button(self.current_frame, text="...or Click to Select Folder", command=self.select_folder)
+        button = tk.Button(self.current_frame, text="...or Click to Select Folder", command=self.selectFiles)
         button.pack()
 
     def _onDrop(self, event):
@@ -132,20 +132,22 @@ class Window(TkinterDnD.Tk):
         if folder:
             self.intermediate(folder, "Scanning, please wait...")
 
-    def select_folder(self):
-        folder = filedialog.askdirectory()
-        if folder:
-            self.intermediate(folder, "Scanning, please wait...")
+    def selectFiles(self):
+        files = filedialog.askopenfilenames(
+            title="Select .dll/.exe files",
+            filetypes=[("Executable or DLL files", "*.exe *.dll")]
+        )
+        if files: self.intermediate(files, "Scanning, please wait...")
 
-    def intermediate(self, folder, msg: str):
+    def intermediate(self, files, msg: str):
         self.container.drop_target_unregister()
         self._switchFrame(tk.Frame(self.container, bg=self.vars.BG))
         label = tk.Label(self.current_frame, text=msg, font=self.vars.FONT, bg=self.vars.BG)
         label.pack(pady=150)
-        threading.Thread(target=self._scanner, args=(folder,)).start()
+        threading.Thread(target=self._scanner, args=(files,)).start()
 
-    def _scanner(self, folder):
-        self.decompiler.scan(folder)
+    def _scanner(self, files):
+        self.decompiler.scan(files)
         self.after(0, self.options)
 
     def options(self):

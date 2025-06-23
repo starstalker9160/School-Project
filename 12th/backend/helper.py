@@ -25,3 +25,17 @@ class Style:
         root.option_add("*Button.Font", Vars().FONT)
         root.option_add("*Label.Font", Vars().FONT)
         root.option_add("*Label.Background", Vars().BG)
+
+class DLLFile:
+    def __init__(self, absPath):
+        self.path = absPath
+
+    def doScan(self) -> bool:
+        return True
+
+class EXEFile:
+    def __init__(self, absPath):
+        self.path = absPath
+
+    def doScan() -> bool:
+        return True
