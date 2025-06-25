@@ -1,3 +1,4 @@
 capstone==5.0.1
 pefile==2023.2.7
 pillow
+tkinterdnd2

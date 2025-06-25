@@ -1,3 +1,5 @@
+import os, pefile
+
 class Vars:
     @property
     def BG(self): return "#C0C0C0"
@@ -29,13 +31,36 @@ class Style:
 class DLLFile:
     def __init__(self, absPath):
         self.path = absPath
+        self.fileName = os.path.basename(absPath)
+        self.fileSize = os.path.getsize(absPath)
+        self.isDotnet = False
+
+        self.scanResult = None
 
     def doScan(self) -> bool:
-        return True
+        try:
+            # do scan and update self.scanResult accordingly
+            return True
+        except Exception as e:
+            print(f"Error: {e}")
+            return False
 
 class EXEFile:
     def __init__(self, absPath):
         self.path = absPath
+        self.fileName = os.path.basename(absPath)
+        self.fileSize = os.path.getsize(absPath)
+        self.isDotnet = False
 
-    def doScan() -> bool:
-        return True
+        self.scanResult = None
+
+    def doScan(self) -> bool:
+        try:
+            # do scan and update self.scanResult accordingly
+            return True
+        except Exception as e:
+            return e
+
+class ScanResult:
+    def __init__(self, stream):
+        self.data = stream

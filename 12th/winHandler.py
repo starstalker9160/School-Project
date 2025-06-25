@@ -1,9 +1,9 @@
-import ctypes
-import threading
 import tkinter as tk
-from backend.helper import *
+from backend.errors import *
+import os, ctypes, threading
 from tkinter import filedialog
 from PIL import Image, ImageTk
+from backend.helper import Vars, Style
 from backend.decompiler import Decompiler
 from tkinterdnd2 import DND_FILES, TkinterDnD
 
@@ -24,7 +24,7 @@ class Window(TkinterDnD.Tk):
         self.geometry("600x400")
         self.configure(bg=self.vars.BG)
 
-        self._create_title_bar()
+        self._createTitleBar()
 
         self.container = tk.Frame(self, bg=self.vars.BG)
         self.container.pack(fill="both", expand=True)
@@ -34,12 +34,12 @@ class Window(TkinterDnD.Tk):
         self.container.dnd_bind('<<Drop>>', self._onDrop)
         self.dragDrop()
 
-    def _create_title_bar(self):
-        self.title_bar = tk.Frame(self, bg=self.vars.TITLE_BG, relief="raised", bd=2, height=24)
-        self.title_bar.pack(fill="x", side="top")
+    def _createTitleBar(self):
+        self.titleBar = tk.Frame(self, bg=self.vars.TITLE_BG, relief="raised", bd=2, height=24)
+        self.titleBar.pack(fill="x", side="top")
 
         self.title_label = tk.Label(
-            self.title_bar,
+            self.titleBar,
             text="Decompiler",
             bg=self.vars.TITLE_BG,
             fg=self.vars.TITLE_FG,
@@ -55,7 +55,7 @@ class Window(TkinterDnD.Tk):
         self.exit_icon = ImageTk.PhotoImage(Image.open("Assets/exit_icon.png").resize((16, 16)))
 
         closeButt = tk.Button(
-            self.title_bar,
+            self.titleBar,
             image=self.exit_icon,
             command=self.destroy,
             bg=self.vars.TITLE_BG,
@@ -65,7 +65,7 @@ class Window(TkinterDnD.Tk):
         closeButt.pack(side="right", padx=2, pady=2)
 
         self.maxButt = tk.Button(
-            self.title_bar,
+            self.titleBar,
             image=self.max_icon,
             command=self.toggleMaximize,
             bg=self.vars.TITLE_BG,
@@ -75,7 +75,7 @@ class Window(TkinterDnD.Tk):
         self.maxButt.pack(side="right", padx=0, pady=2)
 
         minButt = tk.Button(
-            self.title_bar,
+            self.titleBar,
             image=self.min_icon,
             command=self.iconify,
             bg=self.vars.TITLE_BG,
@@ -84,8 +84,8 @@ class Window(TkinterDnD.Tk):
         )
         minButt.pack(side="right", padx=0, pady=2)
 
-        self.title_bar.bind("<Button-1>", self.startWinMove)
-        self.title_bar.bind("<B1-Motion>", self.doWinMove)
+        self.titleBar.bind("<Button-1>", self.startWinMove)
+        self.titleBar.bind("<B1-Motion>", self.doWinMove)
         self.title_label.bind("<Button-1>", self.startWinMove)
         self.title_label.bind("<B1-Motion>", self.doWinMove)
 
@@ -118,37 +118,34 @@ class Window(TkinterDnD.Tk):
         label = tk.Label(self.current_frame, text="Drag'n'drop .dll/.exe files here", bg=self.vars.BG, font=self.vars.FONT)
         label.pack(pady=100)
 
-        button = tk.Button(self.current_frame, text="...or Click to Select Folder", command=self.selectFiles)
+        button = tk.Button(self.current_frame, text="...or Click to select files", command=self.selectFiles)
         button.pack()
 
     def _onDrop(self, event):
-        paths = self.tk.splitlist(event.data)
-        folder = None
-        for path in paths:
-            import os
-            if os.path.isdir(path):
-                folder = path
-                break
-        if folder:
-            self.intermediate(folder, "Scanning, please wait...")
+        files = [
+            i for i in self.tk.splitlist(event.data)
+            if os.path.isfile(i) and i.lower().endswith(('.dll', '.exe'))
+        ]
+        if files:
+            self.scanning(files)
 
     def selectFiles(self):
         files = filedialog.askopenfilenames(
             title="Select .dll/.exe files",
             filetypes=[("Executable or DLL files", "*.exe *.dll")]
         )
-        if files: self.intermediate(files, "Scanning, please wait...")
+        if files: self.scanning(files)
 
-    def intermediate(self, files, msg: str):
+    def scanning(self, files):
         self.container.drop_target_unregister()
         self._switchFrame(tk.Frame(self.container, bg=self.vars.BG))
-        label = tk.Label(self.current_frame, text=msg, font=self.vars.FONT, bg=self.vars.BG)
+        label = tk.Label(self.current_frame, text="Scanning, please wait...", font=self.vars.FONT, bg=self.vars.BG)
         label.pack(pady=150)
         threading.Thread(target=self._scanner, args=(files,)).start()
 
     def _scanner(self, files):
         self.decompiler.scan(files)
-        self.after(0, self.options)
+        self.after(1, self.options)
 
     def options(self):
         self._switchFrame(tk.Frame(self.container, bg=self.vars.BG))
