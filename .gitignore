@@ -3,6 +3,7 @@
 **/builds
 *.spec
 *.pyc
+.vscode/
 venv/
 
 /11th/uploads
