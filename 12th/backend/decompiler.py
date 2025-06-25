@@ -6,7 +6,8 @@ from backend.helper import DLLFile, EXEFile
 class Decompiler:
     def __init__(self):
         self.files = []
-        # self.decoderDll = ctypes.CDLL('bin/decoder.dll')
+        # self.scannerDll = ctypes.CDLL('bin/scanner.dll')
+        # self.decompilerDLL = ctypes.CDLL('bin/decompiler.dll')
 
     def scan(self, files: list):
         for i in files:
