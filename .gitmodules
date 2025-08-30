@@ -1,0 +1,4 @@
+[submodule "12th"]
+	path = 12th
+	url = https://github.com/starstalker9160/CLPX.git
+	branch = school-flavoured
