@@ -10,3 +10,5 @@ venv/
 /11th/out
 
 ~*
+
+.DS_Store
